@@ -1,0 +1,211 @@
+{
+  "settings": {
+    "brandName": "Filamsi Mabda Ghifary",
+    "contactEmail": "filamsi.mghifary@gmail.com",
+    "faviconUrl": "/images/portrait-hero.png",
+    "showreelUrl": "https://github.com/filamsi",
+    "whatsappNumber": "0858-5368-5622",
+    "instagramUrl": "https://instagram.com/filamsi",
+    "resumeUrl": "/uploads/resume.pdf",
+    "quickInfoNote": "Looking for a thoughtful developer partner? Let's talk about your project.",
+    "seoTitle": "Filamsi Mabda Ghifary | Full-Stack Developer",
+    "seoDescription": "Full-Stack Developer specializing in Next.js, React, TypeScript & Laravel with AI integrations."
+  },
+  "hero": {
+    "titleLine1": "Full-Stack",
+    "titleLine2": "Developer",
+    "subtext": "Specializing in Next.js, React, TypeScript & Laravel with AI integrations.",
+    "portraitUrl": "/images/portrait-hero.png"
+  },
+  "about": {
+    "eyebrow": "FULL-STACK DEVELOPER",
+    "eyebrowHighlight": "NEXT.JS & LARAVEL",
+    "headline": "I build modern & scalable web",
+    "headlineHighlight": "applications.",
+    "subtext": "Specializing in end-to-end web development across Next.js, React, and Laravel ecosystems, enhanced with seamless AI model integrations.",
+    "services": [
+      {
+        "num": "01",
+        "title": "Frontend & Next.js",
+        "desc": "Primary specialization in Next.js App Router, React, TypeScript, and Framer Motion for building fast, SEO-optimized, interactive web applications."
+      },
+      {
+        "num": "02",
+        "title": "Backend & Laravel",
+        "desc": "Developing reliable RESTful APIs, authentication workflows, and structured database management using Next.js Server Routes and Laravel."
+      },
+      {
+        "num": "03",
+        "title": "AI & System Integration",
+        "desc": "Integrating AI language models (IndoBERTweet NLP), computer vision (MediaPipe / OpenCV), and third-party APIs into full-stack web products."
+      }
+    ],
+    "values": [
+      {
+        "label": "Approach",
+        "quote": "Clean code architecture, modular components, and seamless user experiences driven by modern web engineering."
+      },
+      {
+        "label": "Values",
+        "quote": "Content & logic drive great web products. Modern design and robust code architecture must go hand-in-hand."
+      },
+      {
+        "label": "Mindset",
+        "quote": "Continuous learning, iterating until perfection, and staying ahead with Next.js and AI innovations."
+      }
+    ]
+  },
+  "works": [
+    {
+      "id": 1,
+      "title": "Athena Shield",
+      "category": "AI Comment Moderation & YouTube API",
+      "year": "2025",
+      "image": "/images/work-branding.png",
+      "isTall": false,
+      "gallery": [
+        "/images/work-branding.png",
+        "/images/work-laptop.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "Automated YouTube comment moderation system using fine-tuned IndoBERTweet model for online gambling detection.",
+      "technologies": [
+        "Python",
+        "IndoBERTweet",
+        "TensorFlow",
+        "YouTube API v3",
+        "React"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Yosma POS",
+      "category": "Sales Monitoring & POS (Next.js)",
+      "year": "2026",
+      "image": "/images/work-phone.png",
+      "isTall": true,
+      "gallery": [
+        "/images/work-phone.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "Digital cashier & sales monitoring web system with automated inventory deduction and analytics visualization.",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Recharts"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "UPT Lab Perindustrian",
+      "category": "Web Digitization & UI/UX",
+      "year": "2025",
+      "image": "/images/work-laptop.png",
+      "isTall": false,
+      "gallery": [
+        "/images/work-laptop.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "Internal service digitization platform for sample registration and lab test result management.",
+      "technologies": [
+        "Laravel",
+        "MySQL",
+        "Tailwind CSS",
+        "Alpine.js"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Silat Mastery",
+      "category": "Mobile App & MediaPipe Pose Detection",
+      "year": "2025",
+      "image": "/images/work-tablet.png",
+      "isTall": true,
+      "gallery": [
+        "/images/work-tablet.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "Interactive martial arts training app with real-time pose estimation using Google MediaPipe computer vision.",
+      "technologies": [
+        "Flutter",
+        "GetX",
+        "MediaPipe",
+        "Computer Vision"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "RecycleHub",
+      "category": "AI Plastic Classification & OpenCV",
+      "year": "2024",
+      "image": "/images/work-fashion.png",
+      "isTall": false,
+      "gallery": [
+        "/images/work-fashion.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "AI model system classifying plastic waste types from user camera inputs.",
+      "technologies": [
+        "Python",
+        "Scikit-learn",
+        "TensorFlow",
+        "OpenCV"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Freelance Web Solutions",
+      "category": "WordPress & Laravel Custom Sites",
+      "year": "2023",
+      "image": "/images/work-cap.png",
+      "isTall": true,
+      "gallery": [
+        "/images/work-cap.png"
+      ],
+      "demoUrl": "https://github.com/filamsi",
+      "githubUrl": "https://github.com/filamsi",
+      "description": "Custom corporate company profiles and personal portfolio sites optimized for speed & SEO.",
+      "technologies": [
+        "Laravel",
+        "WordPress",
+        "SEO Optimization",
+        "PHP"
+      ]
+    }
+  ],
+  "quickInfo": [
+    {
+      "label": "Based in",
+      "value": "Tegal, Indonesia"
+    },
+    {
+      "label": "Degree",
+      "value": "S.Tr. Teknik Informatika"
+    },
+    {
+      "label": "Primary Stack",
+      "value": "Next.js · React · Laravel"
+    },
+    {
+      "label": "Secondary Stack",
+      "value": "TypeScript · REST API · Python AI"
+    },
+    {
+      "label": "Contact",
+      "value": "0858-5368-5622"
+    }
+  ],
+  "footer": {
+    "headlineLine1": "Let's work",
+    "headlineLine2": "together",
+    "emailLabel": "Drop me an email",
+    "copyrightNote": "Designed & built with care"
+  }
+}

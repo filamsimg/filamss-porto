@@ -1,0 +1,40 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js build output
+/.next/
+/out/
+
+# Production build
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local environment files (SENSITIVE - DO NOT COMMIT)
+.env*.local
+.env
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Large raw video/media scratch files
+*.mkv
+*.mp4
+
+# Root loose assets
+/Gua.png
+/RESUME-*.pdf
+
