@@ -2,11 +2,14 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { usePortfolio } from '@/context/portfolio-context';
+import { usePortfolio, getLocalizedHero } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { hero } = usePortfolio();
+  const { lang } = useLanguage();
+  const locHero = getLocalizedHero(hero, lang);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -64,15 +67,15 @@ export default function HeroSection() {
           {/* Line 1 (Web) */}
           <span className="block overflow-hidden pb-1 sm:pb-2 pl-0 sm:pl-[24vw]">
             <motion.span variants={wordVariants} className="block">
-              {hero.titleLine1 || 'Web'}
+              {locHero.titleLine1 || 'Web'}
             </motion.span>
           </span>
 
           {/* Line 2 (Developer) */}
-          {hero.titleLine2 ? (
+          {locHero.titleLine2 ? (
             <span className="block overflow-hidden pb-1 sm:pb-2 pl-10 sm:pl-[34vw]">
               <motion.span variants={wordVariants} className="block font-normal">
-                {hero.titleLine2}
+                {locHero.titleLine2}
               </motion.span>
             </span>
           ) : null}
@@ -86,7 +89,7 @@ export default function HeroSection() {
           className="mt-4 sm:mt-6 pl-10 sm:pl-[35vw] z-30"
         >
           <p className="text-xs sm:text-sm text-[#111111]/75 font-normal tracking-tight max-w-[260px] sm:max-w-xs leading-relaxed">
-            {hero.subtext}
+            {locHero.subtext}
           </p>
         </motion.div>
       </motion.div>

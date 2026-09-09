@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import { useThemeDetector } from '@/hooks/use-theme-detector';
 import { MOTION } from '@/lib/design-tokens';
 import ContactModal from './contact-modal';
 
 export default function TopBar() {
   const { settings } = usePortfolio();
+  const { lang, setLang, t } = useLanguage();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   
@@ -36,16 +38,69 @@ export default function TopBar() {
           {settings.brandName}
         </Link>
 
-        {/* Lime Contact Action Button */}
-        <button
-          onClick={() => setIsContactOpen(true)}
-          className="pointer-events-auto group flex items-center gap-2.5 bg-[#d4e157] text-[#111111] font-semibold text-xs uppercase tracking-wider rounded-full pl-4 pr-2 py-2 shadow-sm hover:bg-[#dcec6a] transition-all transform hover:scale-105"
-        >
-          <span>Contact</span>
-          <div className="h-6 w-6 rounded-full bg-[#111111] text-white flex items-center justify-center">
-            <ArrowUpRight className="h-3.5 w-3.5 group-hover:rotate-45 transition-transform duration-300" />
+        {/* Right Actions: Language Switcher & Contact Button */}
+        <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
+          {/* Dual Language Switcher [ID | EN] */}
+          <div
+            className={`flex items-center p-1 rounded-full border backdrop-blur-md transition-colors duration-400 text-xs font-semibold ${
+              isDarkSection
+                ? 'bg-white/10 border-white/20 text-white shadow-sm'
+                : 'bg-white/80 border-black/10 text-[#111111] shadow-2xs'
+            }`}
+          >
+            <button
+              onClick={() => setLang('id')}
+              className={`relative px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wider transition-colors duration-300 ${
+                lang === 'id'
+                  ? 'text-[#111111]'
+                  : isDarkSection
+                  ? 'text-white/70 hover:text-white'
+                  : 'text-[#111111]/60 hover:text-[#111111]'
+              }`}
+              title="Bahasa Indonesia"
+            >
+              {lang === 'id' && (
+                <motion.div
+                  layoutId="langPill"
+                  className="absolute inset-0 rounded-full bg-[#d4e157] shadow-2xs"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10">ID</span>
+            </button>
+            <button
+              onClick={() => setLang('en')}
+              className={`relative px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wider transition-colors duration-300 ${
+                lang === 'en'
+                  ? 'text-[#111111]'
+                  : isDarkSection
+                  ? 'text-white/70 hover:text-white'
+                  : 'text-[#111111]/60 hover:text-[#111111]'
+              }`}
+              title="English"
+            >
+              {lang === 'en' && (
+                <motion.div
+                  layoutId="langPill"
+                  className="absolute inset-0 rounded-full bg-[#d4e157] shadow-2xs"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10">EN</span>
+            </button>
           </div>
-        </button>
+
+          {/* Lime Contact Action Button */}
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="group flex items-center gap-2.5 bg-[#d4e157] text-[#111111] font-semibold text-xs uppercase tracking-wider rounded-full pl-4 pr-2 py-2 shadow-sm hover:bg-[#dcec6a] transition-all transform hover:scale-105"
+          >
+            <span>{t('topbar.contact')}</span>
+            <div className="h-6 w-6 rounded-full bg-[#111111] text-white flex items-center justify-center">
+              <ArrowUpRight className="h-3.5 w-3.5 group-hover:rotate-45 transition-transform duration-300" />
+            </div>
+          </button>
+        </div>
       </motion.header>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />

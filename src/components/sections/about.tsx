@@ -2,11 +2,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { usePortfolio } from '@/context/portfolio-context';
+import { usePortfolio, getLocalizedAbout } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import { COLORS, RADIUS, SHADOWS, MOTION } from '@/lib/design-tokens';
 
 export default function AboutSection() {
   const { about } = usePortfolio();
+  const { lang, t } = useLanguage();
+  const locAbout = getLocalizedAbout(about, lang);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -48,7 +51,7 @@ export default function AboutSection() {
           variants={itemVariants}
           className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-white/55 mb-8 sm:mb-10 font-mono"
         >
-          {about.eyebrow} <span className="text-[#d4e157] font-semibold">{about.eyebrowHighlight}</span>
+          {locAbout.eyebrow} <span className="text-[#d4e157] font-semibold">{locAbout.eyebrowHighlight}</span>
         </motion.p>
 
         {/* Dynamic Headline */}
@@ -57,7 +60,10 @@ export default function AboutSection() {
           className="font-display font-medium leading-[1.02] tracking-[-0.04em] text-white max-w-4xl"
           style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}
         >
-          {about.headline} <span className="text-[#d4e157]">{about.headlineHighlight}</span>
+          {locAbout.headline || (lang === 'id' ? t('about.headline') : about.headline)}{' '}
+          <span className="text-[#d4e157]">
+            {locAbout.headlineHighlight || (lang === 'id' ? t('about.headlineHighlight') : about.headlineHighlight)}
+          </span>
         </motion.h2>
 
         {/* Dynamic Subtitle */}
@@ -65,7 +71,7 @@ export default function AboutSection() {
           variants={itemVariants}
           className="mt-6 sm:mt-8 text-white/70 text-lg sm:text-2xl font-light max-w-xl leading-relaxed"
         >
-          {about.subtext}
+          {locAbout.subtext || (lang === 'id' ? t('about.subtext') : about.subtext)}
         </motion.p>
       </motion.div>
     </section>

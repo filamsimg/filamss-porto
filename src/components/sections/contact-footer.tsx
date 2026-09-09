@@ -4,12 +4,14 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Copy, Check } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import { MOTION } from '@/lib/design-tokens';
 
 export default function ContactFooter() {
   const containerRef = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
   const { settings, hero, footer } = usePortfolio();
+  const { lang, t } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -43,7 +45,7 @@ export default function ContactFooter() {
             className="text-white"
             style={{ fontSize: 'clamp(2.5rem, 11vw, 9rem)' }}
           >
-            {footer.headlineLine1 || "Let's work"}
+            {lang === 'id' ? t('footer.headline1') : (footer.headlineLine1 || "Let's work")}
           </motion.h2>
 
           {/* Parallax portrait circle */}
@@ -66,14 +68,14 @@ export default function ContactFooter() {
             className="text-[#d4e157]"
             style={{ fontSize: 'clamp(2.5rem, 11vw, 9rem)' }}
           >
-            {footer.headlineLine2 || 'together'}
+            {lang === 'id' ? t('footer.headline2') : (footer.headlineLine2 || 'together')}
           </motion.h2>
         </div>
 
         {/* Email */}
         <div className="mt-8 sm:mt-12 flex flex-col items-center gap-3 w-full max-w-lg px-2">
           <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-white/55">
-            {footer.emailLabel || 'Drop me an email'}
+            {lang === 'id' ? t('footer.emailPrompt') : (footer.emailLabel || 'Drop me an email')}
           </span>
           <div className="flex items-center justify-center gap-2.5 w-full max-w-full">
             <a
@@ -97,7 +99,7 @@ export default function ContactFooter() {
       <div className="w-full max-w-5xl mx-auto pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/45 font-mono">
         <span>©{new Date().getFullYear()} {settings.brandName}</span>
         <span className="uppercase tracking-[0.18em]">
-          {footer.copyrightNote || 'Designed & built with care'}
+          {lang === 'id' ? t('footer.copyright') : (footer.copyrightNote || 'Designed & built with care')}
         </span>
       </div>
     </footer>

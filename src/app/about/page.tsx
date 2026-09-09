@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { usePortfolio } from '@/context/portfolio-context';
+import { usePortfolio, getLocalizedAbout } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import SmoothScroll from '@/components/site/smooth-scroll';
 import TopBar from '@/components/site/top-bar';
 import FloatingNav from '@/components/site/floating-nav';
@@ -12,9 +13,11 @@ import ContactFooter from '@/components/sections/contact-footer';
 
 export default function AboutPage() {
   const { settings, hero, about } = usePortfolio();
+  const { lang, t } = useLanguage();
+  const locAbout = getLocalizedAbout(about, lang);
 
-  const services = about.services || [];
-  const values = about.values || [];
+  const services = locAbout.services || [];
+  const values = locAbout.values || [];
 
   return (
     <SmoothScroll>
@@ -43,12 +46,13 @@ export default function AboutPage() {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="font-display font-medium text-4xl sm:text-6xl md:text-7xl tracking-[-0.04em] text-[#111111] max-w-4xl leading-[1.05]"
             >
-              Building performant web apps with Next.js, Laravel &amp; AI
+              {lang === 'id'
+                ? 'Membangun aplikasi web performa tinggi dengan Next.js, Laravel & AI'
+                : 'Building performant web apps with Next.js, Laravel & AI'}
             </motion.h1>
 
             <p className="text-xl sm:text-2xl text-[#111111]/80 font-light max-w-3xl leading-relaxed">
-              {about.subtext ||
-                'Specializing in end-to-end web development across Next.js, React, and Laravel ecosystems, enhanced with seamless AI model integrations.'}
+              {locAbout.subtext || (lang === 'id' ? t('about.subtext') : about.subtext)}
             </p>
           </section>
 
@@ -71,10 +75,14 @@ export default function AboutPage() {
 
               <div className="lg:col-span-7 space-y-6 lg:pl-6">
                 <h2 className="font-display font-medium text-3xl sm:text-5xl tracking-tight text-[#111111]">
-                  Hands-on engineering for modern web products &amp; AI systems.
+                  {lang === 'id'
+                    ? 'Rekayasa perangkat lunak modern untuk produk web & sistem AI.'
+                    : 'Hands-on engineering for modern web products & AI systems.'}
                 </h2>
                 <p className="text-base sm:text-lg text-[#111111]/70 font-light leading-relaxed">
-                  Graduate in Information Technology from Universitas Harkat Negeri Tegal. Specialized in modern full-stack development with Next.js, React, and TypeScript, backed by Laravel development and AI model integration.
+                  {lang === 'id'
+                    ? 'Lulusan Teknologi Informasi dari Universitas Harkat Negeri Tegal. Spesialisasi dalam modern full-stack development dengan Next.js, React, dan TypeScript, didukung arsitektur backend Laravel serta integrasi model AI.'
+                    : 'Graduate in Information Technology from Universitas Harkat Negeri Tegal. Specialized in modern full-stack development with Next.js, React, and TypeScript, backed by Laravel development and AI model integration.'}
                 </p>
               </div>
             </div>
@@ -85,17 +93,17 @@ export default function AboutPage() {
             <div className="max-w-7xl mx-auto space-y-16">
               <div>
                 <span className="font-mono text-xs uppercase tracking-widest text-[#d4e157]">
-                  Technical Stack &amp; Expertise
+                  {lang === 'id' ? 'Keahlian & Stack Teknis' : 'Technical Stack & Expertise'}
                 </span>
                 <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight mt-2">
-                  Core Capabilities
+                  {lang === 'id' ? 'Layanan Spesialisasi' : 'Core Capabilities'}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {services.map((s) => (
+                {services.map((s, idx) => (
                   <div
-                    key={s.num}
+                    key={s.num || idx}
                     className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-[#d4e157] transition-all space-y-6 group"
                   >
                     <span className="font-mono text-xs text-[#d4e157] block">{s.num}</span>
@@ -112,8 +120,8 @@ export default function AboutPage() {
           {/* Philosophy & Values Section */}
           <section className="py-24 px-6 sm:px-12 lg:px-20 max-w-7xl mx-auto space-y-16">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-black/10 pt-16">
-              {values.map((v) => (
-                <div key={v.label} className="space-y-4">
+              {values.map((v, idx) => (
+                <div key={v.label || idx} className="space-y-4">
                   <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50">
                     {v.label}
                   </span>

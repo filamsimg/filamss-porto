@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Mail, CheckCircle2 } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface ContactModalProps {
 
 export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const { settings } = usePortfolio();
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -62,19 +64,19 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <div className="w-16 h-16 rounded-full bg-[#d4e157] text-[#111111] flex items-center justify-center shadow-lg">
                   <CheckCircle2 size={32} />
                 </div>
-                <h3 className="text-2xl font-display font-bold">Message Sent!</h3>
+                <h3 className="text-2xl font-display font-bold">{t('contact.success')}</h3>
                 <p className="text-sm font-light text-white/80 max-w-xs">
-                  Thank you for reaching out. Filamsi will get back to you within 24 hours.
+                  {t('quickInfo.note')}
                 </p>
               </div>
             ) : (
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl sm:text-4xl font-display font-bold tracking-tight">
-                    Let's start a project <span className="text-[#d4e157]">together</span>
+                    {t('contact.title')}
                   </h2>
                   <p className="mt-2 text-xs sm:text-sm text-white/75 font-light">
-                    Fill out the form below or email directly to{' '}
+                    {t('contact.sub')}{' '}
                     <a href={`mailto:${settings.contactEmail}`} className="underline text-[#d4e157]">
                       {settings.contactEmail}
                     </a>
@@ -84,12 +86,12 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-[11px] font-mono uppercase tracking-wider text-white/70 mb-1.5">
-                      Your Email
+                      {t('contact.email')}
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="mail@mail.com"
+                      placeholder="mail@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 text-white placeholder:text-white/40 focus:outline-none focus:border-[#d4e157] text-sm transition-colors"
@@ -98,12 +100,12 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
                   <div>
                     <label className="block text-[11px] font-mono uppercase tracking-wider text-white/70 mb-1.5">
-                      Message
+                      {t('contact.message')}
                     </label>
                     <textarea
                       required
                       rows={4}
-                      placeholder="Tell me more about your project..."
+                      placeholder="..."
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/15 text-white placeholder:text-white/40 focus:outline-none focus:border-[#d4e157] text-sm transition-colors resize-none"
@@ -114,7 +116,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     type="submit"
                     className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#d4e157] text-[#111111] font-semibold text-xs uppercase tracking-wider hover:bg-[#e4f167] transition-all flex items-center justify-center gap-2 shadow-lg"
                   >
-                    <span>Submit</span>
+                    <span>{t('contact.send')}</span>
                     <Send size={14} />
                   </button>
                 </form>

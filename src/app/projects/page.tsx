@@ -4,7 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import { usePortfolio } from '@/context/portfolio-context';
+import { usePortfolio, getLocalizedWork } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import SmoothScroll from '@/components/site/smooth-scroll';
 import TopBar from '@/components/site/top-bar';
 import FloatingNav from '@/components/site/floating-nav';
@@ -14,6 +15,7 @@ import ContactFooter from '@/components/sections/contact-footer';
 
 export default function ProjectsPage() {
   const { works } = usePortfolio();
+  const { lang, t } = useLanguage();
 
   return (
     <SmoothScroll>
@@ -29,7 +31,7 @@ export default function ProjectsPage() {
             {/* Header */}
             <div className="flex items-baseline justify-between border-b border-black/10 pb-8 mb-12 sm:mb-16">
               <h1 className="font-display font-medium text-4xl sm:text-6xl md:text-7xl tracking-[-0.04em] text-[#111111]">
-                Selected projects
+                {lang === 'id' ? 'Koleksi karya & proyek' : 'Selected projects'}
               </h1>
               <span className="font-mono text-sm sm:text-base text-[#111111]/50">
                 [{works.length < 10 ? `0${works.length}` : works.length}]
@@ -38,50 +40,53 @@ export default function ProjectsPage() {
 
             {/* Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14">
-              {works.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className={`${project.isTall ? 'md:mt-12' : ''}`}
-                >
-                  <Link href={`/projects/${project.id}`} className="group block space-y-4">
-                    {/* Card Media Container */}
-                    <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden bg-[#e5e5e0] border border-black/5 shadow-md">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
+              {works.map((project, idx) => {
+                const localized = getLocalizedWork(project, lang);
+                return (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className={`${project.isTall ? 'md:mt-12' : ''}`}
+                  >
+                    <Link href={`/projects/${project.id}`} className="group block space-y-4">
+                      {/* Card Media Container */}
+                      <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden bg-[#e5e5e0] border border-black/5 shadow-md">
+                        <img
+                          src={project.image}
+                          alt={localized.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
 
-                      {/* Hover View Floating Pill */}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#d4e157] text-[#111111] font-semibold text-xs uppercase tracking-wider shadow-xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                          <span>View Project</span>
-                          <ArrowUpRight size={14} />
+                        {/* Hover View Floating Pill */}
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#d4e157] text-[#111111] font-semibold text-xs uppercase tracking-wider shadow-xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                            <span>{t('allProjects.viewProject')}</span>
+                            <ArrowUpRight size={14} />
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Details Line */}
-                    <div className="flex items-start justify-between pt-1">
-                      <div>
-                        <h2 className="text-xl sm:text-2xl font-display font-medium text-[#111111] group-hover:text-[#1b4d3e] transition-colors">
-                          {project.title}
-                        </h2>
-                        <p className="text-xs sm:text-sm text-[#111111]/60 font-light mt-0.5">
-                          {project.category}
-                        </p>
+                      {/* Details Line */}
+                      <div className="flex items-start justify-between pt-1">
+                        <div>
+                          <h2 className="text-xl sm:text-2xl font-display font-medium text-[#111111] group-hover:text-[#1b4d3e] transition-colors">
+                            {localized.title}
+                          </h2>
+                          <p className="text-xs sm:text-sm text-[#111111]/60 font-light mt-0.5">
+                            {localized.category}
+                          </p>
+                        </div>
+                        <span className="font-mono text-xs text-[#111111]/50 pt-1">
+                          {project.year}
+                        </span>
                       </div>
-                      <span className="font-mono text-xs text-[#111111]/50 pt-1">
-                        {project.year}
-                      </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </section>
         </div>

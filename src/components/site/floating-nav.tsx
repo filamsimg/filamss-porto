@@ -5,19 +5,21 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useThemeDetector } from '@/hooks/use-theme-detector';
+import { useLanguage } from '@/context/language-context';
 import { MOTION } from '@/lib/design-tokens';
 
 export default function FloatingNav() {
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
   
   // Detect dark section at floating nav position ('bottom' -> window.innerHeight - 36px)
   const isDark = useThemeDetector('bottom', navRef);
 
   const navItems = [
-    { label: 'HOME', href: '/' },
-    { label: 'PROJECTS', href: '/projects' },
-    { label: 'ABOUT', href: '/about' },
+    { label: t('nav.home'), href: '/' },
+    { label: t('nav.projects'), href: '/projects' },
+    { label: t('nav.about'), href: '/about' },
   ];
 
   return (
