@@ -188,6 +188,25 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
                 : 'Directly linked to Instagram floating icon.'}
             </p>
           </div>
+
+          {/* Showreel Video URL */}
+          <div className="space-y-2 md:col-span-2">
+            <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
+              {isId ? 'URL Video Showreel (YouTube / Vimeo / MP4)' : 'Showreel Video URL (YouTube / Vimeo / MP4)'}
+            </label>
+            <input
+              type="url"
+              placeholder="https://www.youtube.com/watch?v=... atau https://vimeo.com/... atau link video"
+              value={form.showreelUrl || ''}
+              onChange={(e) => setForm({ ...form, showreelUrl: e.target.value })}
+              className="w-full bg-admin-input border border-admin-border rounded-xl px-4 py-3 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
+            />
+            <p className="text-[11px] text-admin-muted">
+              {isId
+                ? 'Video kompilasi karya ini akan otomatis dimainkan dalam modal ketika pengunjung mengeklik "PLAY REEL" di beranda.'
+                : 'This project showcase video will automatically play inside the modal when visitors click "PLAY REEL" on the homepage.'}
+            </p>
+          </div>
         </div>
       </div>
 
