@@ -10,6 +10,7 @@ import SocialIcons from '@/components/site/social-icons';
 
 import HeroSection from '@/components/sections/hero';
 import AboutSection from '@/components/sections/about';
+import PlayReelSection from '@/components/sections/play-reel';
 import RecentWorksSection from '@/components/sections/recent-works';
 import ContactFooter from '@/components/sections/contact-footer';
 
@@ -25,6 +26,7 @@ export default function Home() {
         <SocialIcons />
         <HeroSection />
         <AboutSection />
+        <PlayReelSection />
         <RecentWorksSection />
         <ContactFooter />
       </main>

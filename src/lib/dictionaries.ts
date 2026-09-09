@@ -43,6 +43,18 @@ export const dictionaries = {
     'quickInfo.contact': 'Contact',
     'quickInfo.note': "Looking for a thoughtful developer partner? Let's talk about your project.",
 
+    // Play Reel Section
+    'playReel.badge': 'Designer & Developer Hybrid',
+    'playReel.headline1': 'I build with',
+    'playReel.headlineHighlight': 'care.',
+    'playReel.headline2': 'No templates, no shortcuts.',
+    'playReel.playButton': 'Click to Play Reel',
+    'playReel.subtext': 'Just custom-made, thoughtful web products – built & brought to life with Next.js, React & AI.',
+    'playReel.modalTitle': 'System & Application Showreel',
+    'playReel.modalDesc': 'Showcasing real-time AI moderation (Athena Shield), Point of Sale automation (Yosma POS), and computer vision models engineered by',
+    'playReel.viewRepo': 'View Projects Repository',
+    'playReel.comingSoon': 'Showreel video coming soon — in the meantime, explore my source code and live deployments.',
+
     // Recent Projects (Landing Page)
     'projects.featuredHeading': 'Featured Works',
     'projects.viewAll': 'View All Projects',
@@ -211,6 +223,18 @@ export const dictionaries = {
     'quickInfo.secondaryStack': 'Stack Pendukung',
     'quickInfo.contact': 'Kontak',
     'quickInfo.note': 'Mencari partner developer yang berdedikasi? Mari diskusikan proyek Anda.',
+
+    // Play Reel Section
+    'playReel.badge': 'Designer & Developer Hybrid',
+    'playReel.headline1': 'Membangun dengan',
+    'playReel.headlineHighlight': 'ketelitian.',
+    'playReel.headline2': 'Tanpa template instan, tanpa kompromi.',
+    'playReel.playButton': 'Putar Video Showreel',
+    'playReel.subtext': 'Produk web kustom berkinerja tinggi – dirancang dan dibangun dengan Next.js, React & integrasi AI.',
+    'playReel.modalTitle': 'Showreel Sistem & Aplikasi',
+    'playReel.modalDesc': 'Menampilkan cuplikan interaksi AI (Athena Shield), otomasi sistem kasir (Yosma POS), dan computer vision yang dibangun oleh',
+    'playReel.viewRepo': 'Lihat Repository Proyek',
+    'playReel.comingSoon': 'Video showreel segera hadir — silakan jelajahi kode sumber dan demonstrasi sistem live di bawah.',
 
     // Recent Projects (Landing Page)
     'projects.featuredHeading': 'Karya Pilihan',
