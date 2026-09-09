@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Lock, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { Lock, ShieldCheck, ArrowLeft, Globe } from 'lucide-react';
+import { useLanguage } from '@/context/language-context';
 
 interface AdminLockScreenProps {
   onUnlock: () => void;
@@ -12,6 +13,8 @@ interface AdminLockScreenProps {
 export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
+  const { lang, setLang, t } = useLanguage();
+  const isId = lang === 'id';
 
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +33,19 @@ export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f015_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f015_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] bg-admin-primary/10 rounded-full blur-[100px] pointer-events-none" />
 
+      {/* Top right language switcher */}
+      <div className="absolute top-5 right-5 z-20">
+        <button
+          onClick={() => setLang(isId ? 'en' : 'id')}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-admin-card/80 backdrop-blur-md border border-admin-border text-xs font-semibold text-admin-text hover:bg-admin-surface transition-all shadow-xs"
+          title={isId ? 'Ganti ke Bahasa Inggris' : 'Switch to Indonesian'}
+        >
+          <Globe size={13} className="text-admin-primary" />
+          <span>{isId ? 'ID' : 'EN'}</span>
+          <span className="text-[10px] text-admin-muted font-normal">| {isId ? 'EN' : 'ID'}</span>
+        </button>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -42,10 +58,10 @@ export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
 
         <div className="text-center space-y-1.5">
           <h1 className="text-2xl font-display font-medium text-admin-text tracking-tight">
-            Portfolio CMS Lock
+            {t('admin.lock.title')}
           </h1>
           <p className="text-xs text-admin-muted">
-            Enter security PIN to edit live content &amp; Supabase DB.
+            {t('admin.lock.subtitle')}
           </p>
         </div>
 
@@ -67,7 +83,7 @@ export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-xs text-red-500 text-center mt-2 font-medium"
               >
-                Incorrect PIN. Please try again.
+                {t('admin.lock.invalid')}
               </motion.p>
             )}
           </div>
@@ -76,7 +92,7 @@ export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
             type="submit"
             className="w-full bg-admin-primary text-admin-primary-fg font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl hover:bg-admin-primary-hover active:scale-[0.99] transition-all shadow-sm flex items-center justify-center gap-2"
           >
-            <ShieldCheck size={17} /> Unlock Dashboard
+            <ShieldCheck size={17} /> {t('admin.lock.unlock')}
           </button>
         </form>
 
@@ -85,7 +101,7 @@ export default function AdminLockScreen({ onUnlock }: AdminLockScreenProps) {
             href="/"
             className="text-xs text-admin-muted hover:text-admin-text inline-flex items-center gap-1.5 transition-colors font-medium"
           >
-            <ArrowLeft size={14} /> Return to Public Portfolio
+            <ArrowLeft size={14} /> {isId ? 'Kembali ke Portofolio Publik' : 'Return to Public Portfolio'}
           </Link>
         </div>
       </motion.div>

@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { LucideIcon, LayoutDashboard, Sparkles, User, FolderGit2, Layers, Sliders, Database, ShieldCheck } from 'lucide-react';
+import { LucideIcon, LayoutDashboard, LayoutTemplate, User, FolderGit2, Layers, Sliders, Database, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '@/context/language-context';
 
 export interface NavSection {
   title: string;
@@ -26,26 +27,29 @@ export default function AdminSidebar({
   projectCount,
   quickInfoCount,
 }: AdminSidebarProps) {
+  const { lang } = useLanguage();
+  const isId = lang === 'id';
+
   const sections: NavSection[] = [
     {
-      title: 'OVERVIEW',
+      title: isId ? 'RINGKASAN' : 'OVERVIEW',
       items: [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
       ],
     },
     {
-      title: 'CONTENT MANAGEMENT',
+      title: isId ? 'MANAJEMEN KONTEN' : 'CONTENT MANAGEMENT',
       items: [
-        { id: 'hero', label: 'Hero Banner', icon: Sparkles },
-        { id: 'about', label: 'About & Services', icon: User },
-        { id: 'works', label: 'Projects / Works', icon: FolderGit2, badge: projectCount },
-        { id: 'quickInfo', label: 'Quick Info Drawer', icon: Layers, badge: quickInfoCount },
+        { id: 'hero', label: isId ? 'Banner Utama (Hero)' : 'Hero Banner', icon: LayoutTemplate },
+        { id: 'about', label: isId ? 'Tentang & Layanan' : 'About & Services', icon: User },
+        { id: 'works', label: isId ? 'Koleksi Proyek' : 'Projects / Works', icon: FolderGit2, badge: projectCount },
+        { id: 'quickInfo', label: isId ? 'Tab Info Cepat' : 'Quick Info Tabs', icon: Layers, badge: quickInfoCount },
       ],
     },
     {
-      title: 'SETTINGS & SYSTEM',
+      title: isId ? 'PENGATURAN SISTEM' : 'SETTINGS & SYSTEM',
       items: [
-        { id: 'settings', label: 'Site, Footer & SEO', icon: Sliders },
+        { id: 'settings', label: isId ? 'Situs, Footer & SEO' : 'Site, Footer & SEO', icon: Sliders },
       ],
     },
   ];
@@ -110,7 +114,7 @@ export default function AdminSidebar({
             <span>Database</span>
           </span>
           <span className="text-admin-badge-text font-semibold bg-admin-badge-bg px-1.5 py-0.5 rounded border border-admin-badge-border text-[10px]">
-            Ready
+            {isId ? 'Siap' : 'Ready'}
           </span>
         </div>
         <div className="flex items-center justify-between">
@@ -118,7 +122,7 @@ export default function AdminSidebar({
             <ShieldCheck size={12} className="text-admin-primary" />
             <span>Session</span>
           </span>
-          <span className="text-admin-text font-medium">Protected</span>
+          <span className="text-admin-text font-medium">{isId ? 'Terlindungi' : 'Protected'}</span>
         </div>
         <div className="pt-1.5 border-t border-admin-border text-[10px] text-admin-subtle truncate">
           Engine: Next.js 14 App Router

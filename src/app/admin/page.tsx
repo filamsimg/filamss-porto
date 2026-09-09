@@ -62,23 +62,46 @@ export default function AdminDashboard() {
 
   const handleOpenAddWork = () => {
     setEditingWorkId(null);
-    setWorkModalForm({ title: '', category: '', year: '2026', image: '', isTall: false });
+    setWorkModalForm({
+      title: '',
+      title_id: '',
+      title_en: '',
+      category: '',
+      category_id: '',
+      category_en: '',
+      year: new Date().getFullYear().toString(),
+      image: '',
+      isTall: false,
+      gallery: [],
+      demoUrl: '',
+      githubUrl: '',
+      description: '',
+      description_id: '',
+      description_en: '',
+      technologies: [],
+    });
     setIsWorkModalOpen(true);
   };
 
   const handleEditWorkClick = (w: WorkItem) => {
     setEditingWorkId(w.id);
     setWorkModalForm({
-      title: w.title,
-      category: w.category,
-      year: w.year,
-      image: w.image,
-      isTall: w.isTall,
-      gallery: w.gallery,
-      demoUrl: w.demoUrl,
-      githubUrl: w.githubUrl,
-      description: w.description,
-      technologies: w.technologies,
+      title: w.title_id || w.title,
+      title_id: w.title_id || w.title,
+      title_en: w.title_en || w.title,
+      category: w.category_id || w.category,
+      category_id: w.category_id || w.category,
+      category_en: w.category_en || w.category,
+      year: w.year || '2026',
+      image: w.image || '',
+      isTall: Boolean(w.isTall),
+      gallery: w.gallery || (w.image ? [w.image] : []),
+      demoUrl: w.demoUrl || '',
+      githubUrl: w.githubUrl || '',
+      description: w.description_id || w.description || '',
+      description_id: w.description_id || w.description || '',
+      description_en: w.description_en || w.description || '',
+      technologies: w.technologies || [],
     });
     setIsWorkModalOpen(true);
   };

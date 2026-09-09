@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Upload, Loader2, FileText, Globe, MessageSquareQuote, Sliders } from 'lucide-react';
 import { SiteSettings, FooterData } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 
 interface TabSettingsProps {
   settings: SiteSettings;
@@ -14,6 +15,8 @@ interface TabSettingsProps {
 
 export default function TabSettings({ settings, footer, onSave, onSaveFooter }: TabSettingsProps) {
   const [form, setForm] = useState(settings);
+  const { lang, t } = useLanguage();
+  const isId = lang === 'id';
   const [footerForm, setFooterForm] = useState<FooterData>(
     footer || {
       headlineLine1: "Let's work",
@@ -108,11 +111,11 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
           <div className="flex items-center gap-2">
             <Sliders size={18} className="text-admin-primary" />
             <h2 className="text-xl sm:text-2xl font-display font-medium text-admin-text tracking-tight">
-              Site, Contact &amp; Footer Settings
+              {t('admin.settings.title')}
             </h2>
           </div>
           <p className="text-xs text-admin-muted mt-1">
-            Manage brand identity, contact channels, footer copy, and SEO metadata.
+            {t('admin.settings.subtitle')}
           </p>
         </div>
       </div>
@@ -120,13 +123,13 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
       {/* Brand & Direct Contact */}
       <div className="p-5 bg-admin-card border border-admin-border rounded-2xl space-y-5 shadow-2xs">
         <h3 className="text-xs uppercase tracking-wider text-admin-primary font-bold">
-          Brand &amp; Direct Channels
+          {isId ? 'Identitas Merek & Kontak Langsung' : 'Brand & Direct Channels'}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Brand / Developer Name
+              {isId ? 'Nama Merek / Developer' : 'Brand / Developer Name'}
             </label>
             <input
               type="text"
@@ -138,7 +141,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
 
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Contact Email
+              {isId ? 'Email Kontak' : 'Contact Email'}
             </label>
             <input
               type="email"
@@ -151,7 +154,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
           {/* WhatsApp Number */}
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              WhatsApp Number (Direct Chat)
+              {isId ? 'Nomor WhatsApp (Chat Langsung)' : 'WhatsApp Number (Direct Chat)'}
             </label>
             <input
               type="text"
@@ -161,14 +164,16 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               className="w-full bg-admin-input border border-admin-border rounded-xl px-4 py-3 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
             />
             <p className="text-[11px] text-admin-muted">
-              Terkoneksi langsung ke link wa.me pada floating icon &amp; baris kontak Quick Info.
+              {isId
+                ? 'Terkoneksi langsung ke link wa.me pada floating icon & baris kontak Quick Info.'
+                : 'Directly linked to wa.me on floating icon & Quick Info drawer.'}
             </p>
           </div>
 
           {/* Instagram Profile URL */}
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Instagram Profile URL
+              {isId ? 'URL Profil Instagram' : 'Instagram Profile URL'}
             </label>
             <input
               type="url"
@@ -178,7 +183,9 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               className="w-full bg-admin-input border border-admin-border rounded-xl px-4 py-3 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
             />
             <p className="text-[11px] text-admin-muted">
-              Terkoneksi langsung ke floating icon Instagram.
+              {isId
+                ? 'Terkoneksi langsung ke floating icon Instagram.'
+                : 'Directly linked to Instagram floating icon.'}
             </p>
           </div>
         </div>
@@ -189,14 +196,14 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
         <div className="flex items-center gap-2">
           <MessageSquareQuote size={16} className="text-admin-primary" />
           <h3 className="text-xs uppercase tracking-wider text-admin-text font-bold">
-            Contact Footer Customization
+            {isId ? 'Kustomisasi Footer Kontak' : 'Contact Footer Customization'}
           </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Headline Line 1
+              {isId ? 'Judul Baris 1' : 'Headline Line 1'}
             </label>
             <input
               type="text"
@@ -209,7 +216,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
 
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Headline Line 2 (Accent)
+              {isId ? 'Judul Baris 2 (Aksen)' : 'Headline Line 2 (Accent)'}
             </label>
             <input
               type="text"
@@ -222,7 +229,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
 
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Email Invitation Label
+              {isId ? 'Label Ajakan Email' : 'Email Invitation Label'}
             </label>
             <input
               type="text"
@@ -235,7 +242,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
 
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Copyright Note
+              {isId ? 'Catatan Hak Cipta' : 'Copyright Note'}
             </label>
             <input
               type="text"
@@ -253,14 +260,14 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
         <div className="flex items-center gap-2">
           <Globe size={16} className="text-admin-primary" />
           <h3 className="text-xs uppercase tracking-wider text-admin-text font-bold">
-            Quick Info Note &amp; SEO
+            {isId ? 'Catatan Info Cepat & SEO' : 'Quick Info Note & SEO'}
           </h3>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              Quick Info Drawer Bottom Note
+              {isId ? 'Catatan Bawah Laci Info Cepat' : 'Quick Info Drawer Bottom Note'}
             </label>
             <textarea
               rows={2}
@@ -274,7 +281,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-                SEO Page Title
+                {isId ? 'Judul Halaman SEO' : 'SEO Page Title'}
               </label>
               <input
                 type="text"
@@ -287,7 +294,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
 
             <div className="space-y-2">
               <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-                SEO Meta Description
+                {isId ? 'Deskripsi Meta SEO' : 'SEO Meta Description'}
               </label>
               <input
                 type="text"
@@ -305,7 +312,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
       <div className="p-5 bg-admin-card border border-admin-border rounded-2xl space-y-4 shadow-2xs">
         <div className="flex items-center justify-between">
           <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-            Resume / CV Document (PDF)
+            {isId ? 'Dokumen Resume / CV (PDF)' : 'Resume / CV Document (PDF)'}
           </label>
           {form.resumeUrl && (
             <a
@@ -314,7 +321,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               rel="noreferrer"
               className="text-xs text-admin-primary hover:underline flex items-center gap-1 font-semibold"
             >
-              <FileText size={13} /> View Current Resume
+              <FileText size={13} /> {isId ? 'Lihat Resume Saat Ini' : 'View Current Resume'}
             </a>
           )}
         </div>
@@ -329,7 +336,9 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               className="w-full bg-admin-input border border-admin-border rounded-xl px-4 py-3 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
             />
             <p className="text-[11px] text-admin-muted">
-              Bisa upload file PDF baru di samping atau masukkan URL link dokumen langsung.
+              {isId
+                ? 'Bisa upload file PDF baru di samping atau masukkan URL link dokumen langsung.'
+                : 'Upload a new PDF file or paste a direct document URL.'}
             </p>
           </div>
 
@@ -338,12 +347,12 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               {isUploadingResume ? (
                 <>
                   <Loader2 size={16} className="animate-spin text-admin-primary" />
-                  <span>Uploading PDF...</span>
+                  <span>{isId ? 'Mengunggah PDF...' : 'Uploading PDF...'}</span>
                 </>
               ) : (
                 <>
                   <Upload size={16} className="text-admin-primary" />
-                  <span>Upload Resume (PDF)</span>
+                  <span>{isId ? 'Unggah Resume (PDF)' : 'Upload Resume (PDF)'}</span>
                 </>
               )}
               <input
@@ -361,7 +370,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
       {/* Favicon File Upload */}
       <div className="p-5 bg-admin-card border border-admin-border rounded-2xl space-y-4 shadow-2xs">
         <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-          Favicon / Brand Logo
+          {isId ? 'Favicon / Logo Merek' : 'Favicon / Brand Logo'}
         </label>
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <div className="w-14 h-14 rounded-2xl bg-admin-surface border border-admin-border overflow-hidden shrink-0 flex items-center justify-center shadow-xs">
@@ -380,12 +389,12 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
               {isUploadingFavicon ? (
                 <>
                   <Loader2 size={16} className="animate-spin text-admin-primary" />
-                  <span>Converting to WebP...</span>
+                  <span>{isId ? 'Mengonversi ke WebP...' : 'Converting to WebP...'}</span>
                 </>
               ) : (
                 <>
                   <Upload size={16} className="text-admin-primary" />
-                  <span>Upload New Favicon / Logo</span>
+                  <span>{isId ? 'Unggah Favicon / Logo Baru' : 'Upload New Favicon / Logo'}</span>
                 </>
               )}
               <input
@@ -405,7 +414,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
           type="submit"
           className="flex items-center gap-2 bg-admin-primary text-admin-primary-fg font-bold text-xs uppercase tracking-wider px-7 py-3.5 rounded-xl hover:bg-admin-primary-hover transition-all shadow-sm"
         >
-          <Save size={16} /> Save Settings &amp; Footer
+          <Save size={16} /> {t('admin.settings.save')}
         </button>
       </div>
     </motion.form>

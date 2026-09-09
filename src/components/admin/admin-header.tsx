@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ExternalLink, Lock, HardDrive, ChevronRight, Sun, Moon } from 'lucide-react';
 import { useAdminTheme } from '@/context/admin-theme-context';
+import { useLanguage } from '@/context/language-context';
 
 interface AdminHeaderProps {
   brandName: string;
@@ -11,7 +12,7 @@ interface AdminHeaderProps {
   onLock: () => void;
 }
 
-const TAB_TITLES: Record<string, { group: string; title: string }> = {
+const TAB_TITLES_EN: Record<string, { group: string; title: string }> = {
   dashboard: { group: 'Overview', title: 'Dashboard Metrics' },
   hero: { group: 'Content Management', title: 'Hero Banner' },
   about: { group: 'Content Management', title: 'About & Services' },
@@ -20,8 +21,19 @@ const TAB_TITLES: Record<string, { group: string; title: string }> = {
   settings: { group: 'Settings & System', title: 'Site, Footer & SEO' },
 };
 
+const TAB_TITLES_ID: Record<string, { group: string; title: string }> = {
+  dashboard: { group: 'Ringkasan', title: 'Metrik Dashboard' },
+  hero: { group: 'Manajemen Konten', title: 'Banner Utama (Hero)' },
+  about: { group: 'Manajemen Konten', title: 'Tentang & Layanan' },
+  works: { group: 'Manajemen Konten', title: 'Tabel Data Proyek' },
+  quickInfo: { group: 'Manajemen Konten', title: 'Laci Info Cepat' },
+  settings: { group: 'Pengaturan Sistem', title: 'Situs, Footer & SEO' },
+};
+
 export default function AdminHeader({ brandName, activeTab, onLock }: AdminHeaderProps) {
-  const currentNav = TAB_TITLES[activeTab] || { group: 'Admin', title: activeTab };
+  const { lang, setLang } = useLanguage();
+  const tabMap = lang === 'id' ? TAB_TITLES_ID : TAB_TITLES_EN;
+  const currentNav = tabMap[activeTab] || { group: 'Admin', title: activeTab };
   const { theme, toggleTheme } = useAdminTheme();
 
   return (
@@ -55,10 +67,36 @@ export default function AdminHeader({ brandName, activeTab, onLock }: AdminHeade
 
       {/* Right Tools & Actions */}
       <div className="flex items-center gap-2.5 shrink-0">
+        {/* Dual Language Switcher [ID | EN] */}
+        <div className="flex items-center p-0.5 rounded-lg bg-admin-surface border border-admin-border text-xs font-semibold shadow-2xs">
+          <button
+            onClick={() => setLang('id')}
+            className={`px-2 py-1 rounded-md text-[11px] font-bold transition-all ${
+              lang === 'id'
+                ? 'bg-admin-primary text-admin-primary-fg shadow-xs'
+                : 'text-admin-muted hover:text-admin-text'
+            }`}
+            title="Bahasa Indonesia (Default)"
+          >
+            ID
+          </button>
+          <button
+            onClick={() => setLang('en')}
+            className={`px-2 py-1 rounded-md text-[11px] font-bold transition-all ${
+              lang === 'en'
+                ? 'bg-admin-primary text-admin-primary-fg shadow-xs'
+                : 'text-admin-muted hover:text-admin-text'
+            }`}
+            title="English"
+          >
+            EN
+          </button>
+        </div>
+
         {/* Server Status Pill */}
         <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-admin-badge-bg border border-admin-badge-border text-[11px] text-admin-badge-text font-medium">
           <HardDrive size={12} />
-          <span>Persistent DB</span>
+          <span>{lang === 'id' ? 'DB Tersimpan' : 'Persistent DB'}</span>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         </div>
 
@@ -71,12 +109,12 @@ export default function AdminHeader({ brandName, activeTab, onLock }: AdminHeade
           {theme === 'light' ? (
             <>
               <Moon size={13} className="text-slate-600" />
-              <span className="hidden sm:inline">Dark</span>
+              <span className="hidden sm:inline">{lang === 'id' ? 'Gelap' : 'Dark'}</span>
             </>
           ) : (
             <>
               <Sun size={13} className="text-amber-400" />
-              <span className="hidden sm:inline">Light</span>
+              <span className="hidden sm:inline">{lang === 'id' ? 'Terang' : 'Light'}</span>
             </>
           )}
         </button>
@@ -86,17 +124,17 @@ export default function AdminHeader({ brandName, activeTab, onLock }: AdminHeade
           target="_blank"
           className="flex items-center gap-1.5 text-xs font-medium text-admin-text hover:opacity-80 px-3 py-1.5 rounded-lg bg-admin-surface hover:bg-admin-surface-hover border border-admin-border transition-colors shadow-2xs"
         >
-          <span>Live Site</span>
+          <span>{lang === 'id' ? 'Lihat Web' : 'Live Site'}</span>
           <ExternalLink size={12} className="text-admin-subtle" />
         </Link>
 
         <button
           onClick={onLock}
           className="flex items-center gap-1.5 text-xs font-medium text-admin-muted hover:text-red-500 px-3 py-1.5 rounded-lg border border-admin-border hover:border-red-300 hover:bg-red-500/10 transition-colors"
-          title="Lock Admin Session"
+          title={lang === 'id' ? 'Kunci Sesi Admin' : 'Lock Admin Session'}
         >
           <Lock size={12} />
-          <span className="hidden sm:inline">Lock</span>
+          <span className="hidden sm:inline">{lang === 'id' ? 'Kunci' : 'Lock'}</span>
         </button>
       </div>
     </header>
