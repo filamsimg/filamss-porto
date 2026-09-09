@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, FileDown } from 'lucide-react';
+import { X, FileText, ExternalLink } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
+import { useLanguage } from '@/context/language-context';
 import { getWhatsAppUrl } from '@/lib/whatsapp';
 
 export default function QuickInfoTab() {
   const [isOpen, setIsOpen] = useState(false);
   const { quickInfo, settings } = usePortfolio();
+  const { t } = useLanguage();
 
   const whatsappUrl = getWhatsAppUrl(
     settings.whatsappNumber,
@@ -24,6 +26,16 @@ export default function QuickInfoTab() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const getLocalizedLabel = (label: string) => {
+    const l = label.toLowerCase();
+    if (l.includes('based in') || l.includes('domisili')) return t('quickInfo.basedIn');
+    if (l.includes('degree') || l.includes('pendidikan')) return t('quickInfo.degree');
+    if (l.includes('primary stack') || l.includes('stack utama')) return t('quickInfo.primaryStack');
+    if (l.includes('secondary stack') || l.includes('stack pendukung')) return t('quickInfo.secondaryStack');
+    if (l.includes('contact') || l.includes('kontak')) return t('quickInfo.contact');
+    return label;
+  };
+
   return (
     <>
       {/* Vertical Trigger Button */}
@@ -34,7 +46,7 @@ export default function QuickInfoTab() {
         aria-label="Open Quick Info"
       >
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#111111]">
-          Quick info
+          {t('quickInfo.title')}
         </span>
       </button>
 
@@ -63,7 +75,7 @@ export default function QuickInfoTab() {
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#d4e157]">
-                    Quick info
+                    {t('quickInfo.title')}
                   </span>
                   <button
                     onClick={() => setIsOpen(false)}
@@ -77,12 +89,12 @@ export default function QuickInfoTab() {
                 {/* Dynamic Info Rows */}
                 <div className="space-y-4 pt-1">
                   {quickInfo.map((row, idx) => {
-                    const isContact = row.label.toLowerCase().includes('contact');
+                    const isContact = row.label.toLowerCase().includes('contact') || row.label.toLowerCase().includes('kontak');
 
                     return (
                       <div key={idx} className="flex flex-col gap-1 border-b border-white/10 pb-3">
                         <span className="text-[10px] uppercase tracking-[0.14em] text-white/50">
-                          {row.label}
+                          {getLocalizedLabel(row.label)}
                         </span>
                         {isContact ? (
                           <a
@@ -107,21 +119,21 @@ export default function QuickInfoTab() {
                   })}
                 </div>
 
-                {/* Direct Action Button: Resume Download */}
+                {/* Direct Action Button: View Resume / CV */}
                 <div className="pt-2">
                   <a
                     href={resumeUrl}
                     target="_blank"
                     rel="noreferrer"
-                    download
                     className="group flex items-center justify-between w-full py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-medium text-xs tracking-wider uppercase transition-all duration-200 hover:border-white/40 active:scale-[0.99]"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FileDown size={16} className="text-[#d4e157] group-hover:translate-y-0.5 transition-transform" />
-                      <span>Download Resume</span>
+                      <FileText size={16} className="text-[#d4e157] group-hover:scale-110 transition-transform" />
+                      <span>{t('quickInfo.downloadResume')}</span>
                     </div>
-                    <span className="text-[10px] font-mono text-white/50 group-hover:text-white transition-colors">
-                      PDF
+                    <span className="flex items-center gap-1.5 text-[10px] font-mono text-white/50 group-hover:text-white transition-colors">
+                      <span>PDF</span>
+                      <ExternalLink size={12} className="opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </span>
                   </a>
                 </div>
@@ -130,7 +142,7 @@ export default function QuickInfoTab() {
               {/* Bottom Paragraph */}
               <div className="pt-6 mt-6 border-t border-white/10">
                 <p className="text-xs sm:text-sm font-light text-white/70 leading-relaxed">
-                  {settings.quickInfoNote || "Looking for a thoughtful developer partner? Let's talk about your project."}
+                  {settings.quickInfoNote || t('quickInfo.note')}
                 </p>
               </div>
             </motion.aside>
