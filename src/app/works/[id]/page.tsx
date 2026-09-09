@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Calendar, Tag, Code2, Sparkles } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Calendar, Tag, Code2, CheckCircle2 } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
 import SmoothScroll from '@/components/site/smooth-scroll';
 import TopBar from '@/components/site/top-bar';
@@ -15,87 +15,90 @@ import ContactFooter from '@/components/sections/contact-footer';
 
 export default function WorkDetailPage() {
   const params = useParams();
-  const { works } = usePortfolio();
+  const { works, isLoaded } = usePortfolio();
+  const workId = Number(params.id);
 
-  const idNum = Number(params?.id);
-  const work = works.find((w) => w.id === idNum);
-
-  if (!work) {
+  if (!isLoaded) {
     return (
-      <main className="min-h-screen bg-[#f4f4f0] flex flex-col items-center justify-center text-center p-6">
-        <h1 className="text-3xl font-bold font-display">Project Not Found</h1>
-        <p className="mt-2 text-sm text-[#111111]/60">The requested work project could not be found.</p>
-        <Link
-          href="/works"
-          className="mt-6 px-6 py-3 rounded-full bg-[#111111] text-white text-xs font-semibold uppercase tracking-wider"
-        >
-          Back to Works
-        </Link>
-      </main>
+      <div className="min-h-screen bg-[#f7f7f5] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-[#1b4d3e] border-t-transparent animate-spin" />
+      </div>
     );
   }
 
+  const work = works.find((w) => w.id === workId);
+
+  if (!work) {
+    return notFound();
+  }
+
   // Find next project
-  const currentIndex = works.findIndex((w) => w.id === idNum);
+  const currentIndex = works.findIndex((w) => w.id === workId);
   const nextWork = works[(currentIndex + 1) % works.length];
 
   return (
     <SmoothScroll>
-      <main className="relative w-full bg-[#f4f4f0] text-[#111111] min-h-screen">
+      <div className="min-h-screen bg-[#f7f7f5] text-[#111111] flex flex-col justify-between selection:bg-[#1b4d3e] selection:text-white">
         <TopBar />
-        <FloatingNav />
         <QuickInfoTab />
+        <FloatingNav />
         <SocialIcons />
 
-        <article className="pt-32 sm:pt-40 pb-24 px-6 sm:px-12 lg:px-20 max-w-6xl mx-auto space-y-12 sm:space-y-16">
-          {/* Back Navigation */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-8 pt-32 pb-20 w-full space-y-12">
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+          >
             <Link
-              href="/works"
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#111111]/60 hover:text-[#111111] transition-colors group"
+              href="/#works"
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#111111]/60 hover:text-[#111111] font-mono transition-colors"
             >
-              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-              <span>Back to Selected Works</span>
+              <ArrowLeft size={14} />
+              <span>Back to Projects</span>
             </Link>
           </motion.div>
 
-          {/* Project Title Header */}
-          <div className="space-y-6">
+          {/* Title & Metadata Header */}
+          <div className="space-y-4 border-b border-black/10 pb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-wrap items-center gap-3 text-xs font-mono uppercase tracking-wider text-[#111111]/60"
+            >
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/5 border border-black/5">
+                <Tag size={12} />
+                {work.category}
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/5 border border-black/5">
+                <Calendar size={12} />
+                {work.year}
+              </span>
+            </motion.div>
+
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-display font-medium text-4xl sm:text-6xl md:text-7xl tracking-[-0.04em] text-[#111111]"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl sm:text-6xl md:text-7xl font-display font-medium text-[#111111] tracking-tight leading-[1.05]"
             >
               {work.title}
             </motion.h1>
-
-            <div className="flex flex-wrap items-center gap-6 pt-2 border-t border-b border-black/10 py-4 text-xs font-mono uppercase tracking-wider text-[#111111]/70">
-              <div className="flex items-center gap-2">
-                <Tag size={14} className="text-[#1b4d3e]" />
-                <span>{work.category}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar size={14} className="text-[#1b4d3e]" />
-                <span>{work.year}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Code2 size={14} className="text-[#1b4d3e]" />
-                <span>Next.js · React · Tailwind</span>
-              </div>
-            </div>
           </div>
 
-          {/* Featured Image */}
+          {/* Hero Media Display */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             className="w-full aspect-[16/9] rounded-3xl overflow-hidden bg-[#e5e5e0] border border-black/10 shadow-xl"
           >
             <img src={work.image} alt={work.title} className="w-full h-full object-cover" />
           </motion.div>
 
-          {/* Project Overview & Highlights */}
+          {/* Overview & Tech Stack Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-4">
             <div className="lg:col-span-8 space-y-6">
               <h2 className="text-2xl font-display font-semibold text-[#111111]">Project Overview</h2>
@@ -105,7 +108,7 @@ export default function WorkDetailPage() {
 
               <div className="p-6 rounded-2xl bg-white border border-black/10 shadow-sm space-y-3">
                 <div className="flex items-center gap-2 text-sm font-semibold text-[#1b4d3e]">
-                  <Sparkles size={16} />
+                  <CheckCircle2 size={16} />
                   <span>Key Technical Deliverables</span>
                 </div>
                 <ul className="text-xs sm:text-sm text-[#111111]/70 space-y-2 list-disc list-inside font-light">
@@ -152,11 +155,11 @@ export default function WorkDetailPage() {
               </Link>
             </div>
           )}
-        </article>
+        </main>
 
         {/* Contact Footer */}
         <ContactFooter />
-      </main>
+      </div>
     </SmoothScroll>
   );
 }

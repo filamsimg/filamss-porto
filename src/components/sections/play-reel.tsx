@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
+import { Play, X, ExternalLink, Code2 } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
 
 export default function PlayReelSection() {
@@ -32,7 +32,7 @@ export default function PlayReelSection() {
         className="space-y-4 mb-10 sm:mb-14 z-10 max-w-3xl"
       >
         <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 text-[#d4e157] text-xs font-mono uppercase tracking-[0.2em] border border-white/15">
-          <Sparkles size={12} />
+          <Code2 size={12} />
           <span>Designer &amp; Developer Hybrid</span>
         </span>
 

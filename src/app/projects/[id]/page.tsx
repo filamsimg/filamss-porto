@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Calendar, Tag, Code2, Sparkles, Globe, Github, X, Eye } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Calendar, Tag, Code2, Globe, Github, X, Eye } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
 import SmoothScroll from '@/components/site/smooth-scroll';
 import TopBar from '@/components/site/top-bar';
