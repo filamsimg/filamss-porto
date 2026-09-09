@@ -3,6 +3,7 @@ import path from 'path';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { PortfolioProvider } from '@/context/portfolio-context';
+import { LanguageProvider } from '@/context/language-context';
 import './globals.css';
 
 const inter = Inter({
@@ -50,13 +51,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="id" translate="no" className={`${inter.variable} notranslate`}>
       <head>
+        <meta name="google" content="notranslate" />
         <link rel="icon" href="/images/portrait-hero.png" />
       </head>
-      <body className="bg-[#f4f4f0] text-[#111111] antialiased selection:bg-[#d4e157] selection:text-[#111111]">
+      <body className="bg-[#f4f4f0] text-[#111111] antialiased selection:bg-[#d4e157] selection:text-[#111111] notranslate">
         <PortfolioProvider>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </PortfolioProvider>
       </body>
     </html>
