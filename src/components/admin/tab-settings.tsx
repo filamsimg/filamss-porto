@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Upload, Loader2, FileText, Globe, MessageSquareQuote, Sliders } from 'lucide-react';
+import { Save, Upload, Loader2, FileText, Globe, MessageSquareQuote, Sliders, Video, CheckCircle2, Trash2 } from 'lucide-react';
 import { SiteSettings, FooterData } from '@/context/portfolio-context';
 import { useLanguage } from '@/context/language-context';
 
@@ -27,6 +27,7 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
   );
   const [isUploadingFavicon, setIsUploadingFavicon] = useState(false);
   const [isUploadingResume, setIsUploadingResume] = useState(false);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
 
   useEffect(() => {
     setForm(settings);
@@ -87,6 +88,34 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
       console.error('Resume upload error:', err);
     } finally {
       setIsUploadingResume(false);
+    }
+  };
+
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingVideo(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.url) {
+          setForm((prev) => ({ ...prev, showreelUrl: data.url }));
+        }
+      }
+    } catch (err) {
+      console.error('Video upload error:', err);
+    } finally {
+      setIsUploadingVideo(false);
     }
   };
 
@@ -189,22 +218,65 @@ export default function TabSettings({ settings, footer, onSave, onSaveFooter }: 
             </p>
           </div>
 
-          {/* Showreel Video URL */}
-          <div className="space-y-2 md:col-span-2">
-            <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold">
-              {isId ? 'URL Video Showreel (YouTube / Vimeo / MP4)' : 'Showreel Video URL (YouTube / Vimeo / MP4)'}
-            </label>
-            <input
-              type="url"
-              placeholder="https://www.youtube.com/watch?v=... atau https://vimeo.com/... atau link video"
-              value={form.showreelUrl || ''}
-              onChange={(e) => setForm({ ...form, showreelUrl: e.target.value })}
-              className="w-full bg-admin-input border border-admin-border rounded-xl px-4 py-3 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
-            />
+          {/* Showreel Video Upload */}
+          <div className="space-y-3 md:col-span-2 p-4 rounded-xl bg-admin-input/50 border border-admin-border">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <label className="block text-xs uppercase tracking-wider text-admin-text font-semibold flex items-center gap-1.5">
+                <Video size={14} className="text-admin-primary" />
+                <span>{isId ? 'Video Showreel (Upload)' : 'Showreel Video (Upload)'}</span>
+              </label>
+
+              {/* Upload Video Button */}
+              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-admin-card hover:bg-admin-card-hover border border-admin-border text-xs font-medium text-admin-text cursor-pointer transition-colors shadow-2xs">
+                {isUploadingVideo ? (
+                  <Loader2 size={13} className="animate-spin text-admin-primary" />
+                ) : (
+                  <Upload size={13} className="text-admin-primary" />
+                )}
+                <span>
+                  {isUploadingVideo
+                    ? isId ? 'Mengunggah...' : 'Uploading...'
+                    : isId ? 'Upload Video (.mp4 / .webm)' : 'Upload Video (.mp4 / .webm)'}
+                </span>
+                <input
+                  type="file"
+                  accept="video/mp4,video/webm,video/ogg"
+                  onChange={handleVideoUpload}
+                  className="hidden"
+                  disabled={isUploadingVideo}
+                />
+              </label>
+            </div>
+
+            {/* Current video status */}
+            {form.showreelUrl && form.showreelUrl.startsWith('/') ? (
+              <div className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-admin-primary/8 border border-admin-primary/20">
+                <div className="flex items-center gap-2 min-w-0">
+                  <CheckCircle2 size={14} className="text-admin-primary shrink-0" />
+                  <span className="text-xs font-mono text-admin-primary truncate">{form.showreelUrl}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, showreelUrl: '' }))}
+                  className="p-1 rounded-md hover:bg-red-500/10 text-admin-muted hover:text-red-500 transition-colors shrink-0"
+                  title={isId ? 'Hapus video' : 'Remove video'}
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-admin-card/60 border border-dashed border-admin-border">
+                <Video size={14} className="text-admin-muted" />
+                <span className="text-xs text-admin-muted">
+                  {isId ? 'Belum ada video. Upload file .webm atau .mp4.' : 'No video yet. Upload a .webm or .mp4 file.'}
+                </span>
+              </div>
+            )}
+
             <p className="text-[11px] text-admin-muted">
               {isId
-                ? 'Video kompilasi karya ini akan otomatis dimainkan dalam modal ketika pengunjung mengeklik "PLAY REEL" di beranda.'
-                : 'This project showcase video will automatically play inside the modal when visitors click "PLAY REEL" on the homepage.'}
+                ? '💡 Format .webm direkomendasikan — lebih ringan & lebih cepat dari .mp4. Video akan autoplay saat pengunjung scroll ke bagian Play Reel.'
+                : '💡 .webm format is recommended — lighter & faster than .mp4. Video autoplays when visitors scroll to the Play Reel section.'}
             </p>
           </div>
         </div>

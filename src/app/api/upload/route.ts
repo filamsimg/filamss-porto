@@ -74,13 +74,18 @@ export async function POST(request: Request) {
 
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
       const isDoc = file.name.toLowerCase().endsWith('.doc') || file.name.toLowerCase().endsWith('.docx');
+      const isVideo = file.type.startsWith('video/') || /\.(mp4|webm|ogg|mov)$/i.test(file.name);
 
       let fileBuffer: Buffer;
       let filename: string;
 
-      if (isPdf || isDoc) {
+      if (isPdf || isDoc || isVideo) {
         fileBuffer = inputBuffer;
-        const ext = isPdf ? 'pdf' : file.name.split('.').pop()?.toLowerCase() || 'bin';
+        const ext = isPdf
+          ? 'pdf'
+          : isVideo
+          ? file.name.split('.').pop()?.toLowerCase() || 'mp4'
+          : file.name.split('.').pop()?.toLowerCase() || 'bin';
         const rawName = file.name.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
         filename = `${Date.now()}-${rawName.toLowerCase()}.${ext}`;
       } else {
