@@ -34,7 +34,14 @@ next-env.d.ts
 *.mkv
 *.mp4
 
-# Root loose assets
+# Root loose assets & resumes (DO NOT COMMIT)
 /Gua.png
 /RESUME-*.pdf
+/CV*.pdf
+/CV-*.pdf
+/Resume*.pdf
+/Resume*.docx
+/CV*.docx
+/scripts/
+
 
