@@ -3,13 +3,13 @@
     "brandName": "Filamsi Mabda Ghifary",
     "contactEmail": "filamsi.mghifary@gmail.com",
     "faviconUrl": "/images/portrait-hero.png",
-    "showreelUrl": "https://github.com/filamsi",
+    "showreelUrl": "",
     "whatsappNumber": "0858-5368-5622",
-    "instagramUrl": "https://instagram.com/filamsi",
+    "instagramUrl": "https://instagram.com/filamss",
     "resumeUrl": "/uploads/resume.pdf",
     "quickInfoNote": "Looking for a thoughtful developer partner? Let's talk about your project.",
     "seoTitle": "Filamsi Mabda Ghifary | Full-Stack Developer",
-    "seoDescription": "Full-Stack Developer specializing in Next.js, React, TypeScript & Laravel with AI integrations."
+    "seoDescription": "Full-Stack Developer specializing in Next.js & Laravel with AI integrations."
   },
   "hero": {
     "titleLine1": "Full-Stack",
@@ -18,9 +18,9 @@
     "titleLine2": "Developer",
     "titleLine2_id": "Developer",
     "titleLine2_en": "Developer",
-    "subtext": "Spesialisasi di Next.js, React, TypeScript & Laravel dengan integrasi AI.",
-    "subtext_id": "Spesialisasi di Next.js, React, TypeScript & Laravel dengan integrasi AI.",
-    "subtext_en": "Specializing in Next.js, React, TypeScript & Laravel with integrasi AI.",
+    "subtext": "Spesialisasi di Next.js & Laravel dengan integrasi AI.",
+    "subtext_id": "Spesialisasi di Next.js & Laravel dengan integrasi AI.",
+    "subtext_en": "Specializing in Next.js & Laravel with integrasi AI.",
     "portraitUrl": "/images/portrait-hero.png"
   },
   "about": {
@@ -36,24 +36,24 @@
     "headlineHighlight": "& terukur.",
     "headlineHighlight_id": "& terukur.",
     "headlineHighlight_en": "& scalable.",
-    "subtext": "Spesialisasi dalam pengembangan web end-to-end di ekosistem Next.js, React, dan Laravel, diperkaya integrasi model AI yang mulus.",
-    "subtext_id": "Spesialisasi dalam pengembangan web end-to-end di ekosistem Next.js, React, dan Laravel, diperkaya integrasi model AI yang mulus.",
-    "subtext_en": "Specializing in end-to-end web development across Next.js, React, and Laravel ecosystems, enhanced with seamless AI model integrations.",
+    "subtext": "Spesialisasi dalam pengembangan web end-to-end di ekosistem Next.js dan Laravel.",
+    "subtext_id": "Spesialisasi dalam pengembangan web end-to-end di ekosistem Next.js dan Laravel.",
+    "subtext_en": "Specializing in end-to-end web development across Next.js and Laravel ecosystems, ",
     "services": [
       {
         "num": "01",
-        "title": "Frontend & Next.js",
-        "title_id": "Frontend & Next.js",
-        "title_en": "Frontend & Next.js",
-        "desc": "Spesialisasi utama dalam Next.js App Router, React, TypeScript, dan Framer Motion untuk membangun aplikasi web yang cepat, interaktif, dan SEO-friendly.",
-        "desc_id": "Spesialisasi utama dalam Next.js App Router, React, TypeScript, dan Framer Motion untuk membangun aplikasi web yang cepat, interaktif, dan SEO-friendly.",
-        "desc_en": "Primary specialization in Next.js App Router, React, TypeScript, and Framer Motion for building fast, interactive, and SEO-friendly web applications."
+        "title": "Next.js",
+        "title_id": "Next.js",
+        "title_en": "Next.js",
+        "desc": "Spesialisasi utama dalam Next.js dan Framer Motion untuk membangun aplikasi web yang cepat, interaktif, dan SEO-friendly.",
+        "desc_id": "Spesialisasi utama dalam Next.js dan Framer Motion untuk membangun aplikasi web yang cepat, interaktif, dan SEO-friendly.",
+        "desc_en": "Primary specialization in Next.js and Framer Motion for building fast, interactive, and SEO-friendly web applications."
       },
       {
         "num": "02",
-        "title": "Backend & Laravel",
-        "title_id": "Backend & Laravel",
-        "title_en": "Backend & Laravel",
+        "title": "Laravel",
+        "title_id": "Laravel",
+        "title_en": "Laravel",
         "desc": "Mengembangkan RESTful API yang andal, autentikasi aman, dan manajemen database terstruktur menggunakan Next.js Server Routes dan Laravel.",
         "desc_id": "Mengembangkan RESTful API yang andal, autentikasi aman, dan manajemen database terstruktur menggunakan Next.js Server Routes dan Laravel.",
         "desc_en": "Developing reliable RESTful APIs, secure authentication, and structured database management using Next.js Server Routes and Laravel."
@@ -101,27 +101,31 @@
       "title": "Athena Shield",
       "title_id": "Athena Shield",
       "title_en": "Athena Shield",
-      "category": "AI Comment Moderation & YouTube API",
-      "category_id": "Moderasi Komentar AI & YouTube API",
-      "category_en": "AI Comment Moderation & YouTube API",
+      "category": "AI & ML",
+      "category_id": "AI & ML",
+      "category_en": "AI & ML",
       "year": "2025",
-      "image": "/images/work-branding.png",
+      "image": "/uploads/1789538674913-landing_page.webp",
       "isTall": false,
       "gallery": [
-        "/images/work-branding.png",
-        "/images/work-laptop.png"
+        "/uploads/1789538674913-landing_page.webp",
+        "/uploads/1789538682566-dashboard.webp",
+        "/uploads/1789538690542-paket_dan_harga.webp",
+        "/uploads/1789538700608-moderasi_komentar.webp"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "Automated YouTube comment moderation system using fine-tuned IndoBERTweet model for online gambling detection.",
-      "description_id": "Sistem moderasi komentar YouTube otomatis menggunakan fine-tuned IndoBERTweet untuk deteksi judi online.",
-      "description_en": "Automated YouTube comment moderation system using fine-tuned IndoBERTweet model for online gambling detection.",
+      "demoUrl": "https://athenashield.my.id/",
+      "githubUrl": "https://github.com/filamsimg/youtube_moderation_web",
+      "description": "Platform moderasi komentar YouTube proaktif berbasis AI — IndoBERTweet untuk deteksi judi online, Sentiment Analysis komunitas, Supabase cloud DB, dan Google OAuth.",
+      "description_id": "Platform moderasi komentar YouTube proaktif berbasis AI — IndoBERTweet untuk deteksi judi online, Sentiment Analysis komunitas, Supabase cloud DB, dan Google OAuth.",
+      "description_en": "Proactive YouTube comment moderation platform — IndoBERTweet AI for gambling detection, community Sentiment Analysis, Supabase cloud DB, and Google OAuth.",
       "technologies": [
-        "Python",
+        "Next.js 14",
         "IndoBERTweet",
-        "TensorFlow",
-        "YouTube API v3",
-        "React"
+        "Sentiment Analysis",
+        "Supabase",
+        "YouTube Data API v3",
+        "Google OAuth",
+        "Tailwind CSS"
       ]
     },
     {
@@ -129,26 +133,27 @@
       "title": "Yosma POS",
       "title_id": "Yosma POS",
       "title_en": "Yosma POS",
-      "category": "Sales Monitoring & POS (Next.js)",
-      "category_id": "Pemantauan Penjualan & Kasir POS (Next.js)",
-      "category_en": "Sales Monitoring & POS (Next.js)",
+      "category": "Web App",
+      "category_id": "Web App",
+      "category_en": "Web App",
       "year": "2026",
       "image": "/images/work-phone.png",
       "isTall": true,
       "gallery": [
         "/images/work-phone.png"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "Digital cashier & sales monitoring web system with automated inventory deduction and analytics visualization.",
-      "description_id": "Sistem web kasir digital & pemantauan penjualan dengan pengurangan inventaris otomatis dan visualisasi analitik.",
-      "description_en": "Digital cashier & sales monitoring web system with automated inventory deduction and analytics visualization.",
+      "demoUrl": "https://yosma-pos.vercel.app",
+      "githubUrl": "https://github.com/filamsimg/yosma-pos",
+      "description": "Platform manajemen penjualan & distribusi modern — jadwal kunjungan outlet, multi-sales assignment, low stock alerts, role-based access (Admin & Sales lapangan), dan Excel mass import.",
+      "description_id": "Platform manajemen penjualan & distribusi modern — jadwal kunjungan outlet, multi-sales assignment, low stock alerts, role-based access (Admin & Sales lapangan), dan Excel mass import.",
+      "description_en": "Advanced sales & distribution management platform with outlet visit scheduling, multi-sales assignment, low stock alerts, role-based access, and Excel mass import.",
       "technologies": [
         "Next.js",
-        "React",
         "TypeScript",
         "Tailwind CSS",
-        "Recharts"
+        "Supabase",
+        "Chart.js",
+        "Excel Import"
       ]
     },
     {
@@ -156,51 +161,54 @@
       "title": "UPT Lab Perindustrian",
       "title_id": "UPT Lab Perindustrian",
       "title_en": "UPT Industrial Lab",
-      "category": "Web Digitization & UI/UX",
-      "category_id": "Digitalisasi Layanan Web & UI/UX",
-      "category_en": "Web Digitization & UI/UX",
+      "category": "Web App",
+      "category_id": "Web App",
+      "category_en": "Web App",
       "year": "2025",
       "image": "/images/work-laptop.png",
       "isTall": false,
       "gallery": [
         "/images/work-laptop.png"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "Internal service digitization platform for sample registration and lab test result management.",
-      "description_id": "Platform digitalisasi layanan internal untuk registrasi sampel dan manajemen hasil uji lab terpadu.",
-      "description_en": "Internal service digitization platform for sample registration and lab test result management.",
+      "demoUrl": "https://github.com/filamsimg/UPT_Lab",
+      "githubUrl": "https://github.com/filamsimg/UPT_Lab",
+      "description": "Dashboard manajemen operasional laboratorium perindustrian Kab. Tegal — permintaan pengujian, kaji ulang, laporan keuangan, dan manajemen pengguna berbasis role.",
+      "description_id": "Dashboard manajemen operasional laboratorium perindustrian Kab. Tegal — permintaan pengujian, kaji ulang, laporan keuangan, dan manajemen pengguna berbasis role.",
+      "description_en": "Industrial lab management dashboard for Tegal Regency — test requests, review workflows, financial reporting, and role-based user management.",
       "technologies": [
-        "Laravel",
-        "MySQL",
+        "Vue 3",
+        "Vite",
+        "Pinia",
         "Tailwind CSS",
-        "Alpine.js"
+        "Chart.js",
+        "Axios",
+        "Docker"
       ]
     },
     {
       "id": 4,
-      "title": "Silat Mastery",
-      "title_id": "Silat Mastery",
-      "title_en": "Silat Mastery",
-      "category": "Mobile App & MediaPipe Pose Detection",
-      "category_id": "Aplikasi Mobile & Deteksi Pose MediaPipe",
-      "category_en": "Mobile App & MediaPipe Pose Detection",
-      "year": "2025",
+      "title": "Lee KreZs",
+      "title_id": "Lee KreZs",
+      "title_en": "Lee KreZs",
+      "category": "Web App",
+      "category_id": "Web App",
+      "category_en": "Web App",
+      "year": "2026",
       "image": "/images/work-tablet.png",
       "isTall": true,
       "gallery": [
         "/images/work-tablet.png"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "Interactive martial arts training app with real-time pose estimation using Google MediaPipe computer vision.",
-      "description_id": "Aplikasi pelatihan bela diri interaktif dengan estimasi pose waktu nyata menggunakan Google MediaPipe computer vision.",
-      "description_en": "Interactive martial arts training app with real-time pose estimation using Google MediaPipe computer vision.",
+      "demoUrl": "https://leekrezs.my.id",
+      "githubUrl": "https://github.com/filamsimg/leekrezs",
+      "description": "Landing page pemesanan untuk brand kuliner Lee KreZs — integrasi WhatsApp ordering, informasi outlet, jam operasional, dan menu lengkap.",
+      "description_id": "Landing page pemesanan untuk brand kuliner Lee KreZs — integrasi WhatsApp ordering, informasi outlet, jam operasional, dan menu lengkap.",
+      "description_en": "Order landing page for culinary brand Lee KreZs with WhatsApp ordering integration, outlet info, operating hours, and full menu display.",
       "technologies": [
-        "Flutter",
-        "GetX",
-        "MediaPipe",
-        "Computer Vision"
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "App Router"
       ]
     },
     {
@@ -208,20 +216,20 @@
       "title": "RecycleHub",
       "title_id": "RecycleHub",
       "title_en": "RecycleHub",
-      "category": "AI Plastic Classification & OpenCV",
-      "category_id": "Klasifikasi Sampah Plastik AI & OpenCV",
-      "category_en": "AI Plastic Classification & OpenCV",
+      "category": "Mobile App",
+      "category_id": "Mobile App",
+      "category_en": "Mobile App",
       "year": "2024",
       "image": "/images/work-fashion.png",
       "isTall": false,
       "gallery": [
         "/images/work-fashion.png"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "AI model system classifying plastic waste types from user camera inputs.",
-      "description_id": "Model computer vision cerdas untuk klasifikasi jenis sampah plastik daur ulang secara akurat.",
-      "description_en": "AI model system classifying plastic waste types from user camera inputs.",
+      "demoUrl": "https://github.com/filamsimg",
+      "githubUrl": "https://github.com/filamsimg",
+      "description": "Model computer vision untuk klasifikasi jenis sampah plastik daur ulang secara akurat menggunakan kamera pengguna.",
+      "description_id": "Model computer vision untuk klasifikasi jenis sampah plastik daur ulang secara akurat menggunakan kamera pengguna.",
+      "description_en": "Computer vision AI model for accurate plastic waste type classification from live camera input.",
       "technologies": [
         "Python",
         "Scikit-learn",
@@ -231,29 +239,62 @@
     },
     {
       "id": 6,
-      "title": "Freelance Web Solutions",
-      "title_id": "Freelance Web Solutions",
-      "title_en": "Freelance Web Solutions",
-      "category": "WordPress & Laravel Custom Sites",
-      "category_id": "Kustom Web WordPress & Laravel",
-      "category_en": "WordPress & Laravel Custom Sites",
-      "year": "2023",
+      "title": "Filamsi Portfolio",
+      "title_id": "Filamsi Portfolio",
+      "title_en": "Filamsi Portfolio",
+      "category": "Web App",
+      "category_id": "Web App",
+      "category_en": "Web App",
+      "year": "2026",
       "image": "/images/work-cap.png",
       "isTall": true,
       "gallery": [
         "/images/work-cap.png"
       ],
-      "demoUrl": "https://github.com/filamsi",
-      "githubUrl": "https://github.com/filamsi",
-      "description": "Custom corporate company profiles and personal portfolio sites optimized for speed & SEO.",
-      "description_id": "Koleksi website profil perusahaan responsif dan berkinerja tinggi yang dioptimalkan untuk kecepatan dan SEO.",
-      "description_en": "Custom corporate company profiles and personal portfolio sites optimized for speed & SEO.",
+      "demoUrl": "https://github.com/filamsimg/filamss-porto",
+      "githubUrl": "https://github.com/filamsimg/filamss-porto",
+      "description": "Portofolio editorial personal dengan custom Admin CMS — Next.js 14 App Router, Framer Motion, dan sistem manajemen konten berbasis JSON tanpa database eksternal.",
+      "description_id": "Portofolio editorial personal dengan custom Admin CMS — Next.js 14 App Router, Framer Motion, dan sistem manajemen konten berbasis JSON tanpa database eksternal.",
+      "description_en": "Personal editorial portfolio with custom Admin CMS built on Next.js 14 App Router, Framer Motion, and a JSON-based content management system without external database.",
       "technologies": [
-        "Laravel",
-        "WordPress",
-        "SEO Optimization",
-        "PHP"
+        "Next.js 14",
+        "TypeScript",
+        "Framer Motion",
+        "Tailwind CSS",
+        "Custom CMS"
       ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "web-app",
+      "name_id": "Web App",
+      "name_en": "Web App"
+    },
+    {
+      "id": "ai-ml",
+      "name_id": "AI & ML",
+      "name_en": "AI & ML"
+    },
+    {
+      "id": "mobile",
+      "name_id": "Mobile App",
+      "name_en": "Mobile App"
+    },
+    {
+      "id": "iot",
+      "name_id": "IoT & Sistem",
+      "name_en": "IoT & Systems"
+    },
+    {
+      "id": "ui-ux",
+      "name_id": "UI/UX & Web",
+      "name_en": "UI/UX & Web"
+    },
+    {
+      "id": "enterprise",
+      "name_id": "Enterprise Web",
+      "name_en": "Enterprise Web"
     }
   ],
   "quickInfo": [
@@ -267,7 +308,7 @@
     },
     {
       "label": "Primary Stack",
-      "value": "Next.js · React · Laravel"
+      "value": "Next.js · Laravel"
     },
     {
       "label": "Secondary Stack",
