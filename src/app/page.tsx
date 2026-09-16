@@ -25,8 +25,8 @@ export default function Home() {
         <ScrollProgressBar />
         <SocialIcons />
         <HeroSection />
-        <AboutSection />
         <PlayReelSection />
+        <AboutSection />
         <RecentWorksSection />
         <ContactFooter />
       </main>

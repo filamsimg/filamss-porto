@@ -44,7 +44,7 @@ export default function FloatingNav() {
             <Link
               key={item.label}
               href={item.href}
-              className={`relative px-5 py-2 rounded-full text-xs font-semibold tracking-wider transition-colors duration-300 ${
+              className={`relative px-5 py-2 rounded-full text-xs font-semibold tracking-wider transition-colors duration-300 select-none ${
                 isActive
                   ? 'text-[#111111]'
                   : isDark
@@ -56,7 +56,7 @@ export default function FloatingNav() {
                 <motion.div
                   layoutId="activePill"
                   className="absolute inset-0 rounded-full bg-[#d4e157] shadow-sm"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                 />
               )}
               <span className="relative z-10">{item.label}</span>

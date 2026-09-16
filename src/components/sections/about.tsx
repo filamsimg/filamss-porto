@@ -36,7 +36,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className={`relative z-30 min-h-[100svh] bg-[#1b4d3e] text-white flex items-center justify-center py-[24vh] sm:py-[28vh] px-6 text-center grain overflow-hidden ${RADIUS.panelTop} -mt-4 ${SHADOWS.panelTop}`}
+      className="relative z-30 min-h-[90svh] bg-[#1b4d3e] text-white flex items-center justify-center py-[18vh] sm:py-[22vh] px-6 text-center grain overflow-hidden"
       style={{ position: 'relative', zIndex: 30 }}
     >
       <motion.div
