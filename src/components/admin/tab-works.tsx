@@ -12,9 +12,11 @@ import {
   ExternalLink,
   Github,
   FolderGit2,
+  Tags,
 } from 'lucide-react';
-import { WorkItem, getLocalizedWork } from '@/context/portfolio-context';
+import { WorkItem, getLocalizedWork, usePortfolio } from '@/context/portfolio-context';
 import { useLanguage } from '@/context/language-context';
+import CategoryModal from '@/components/admin/category-modal';
 
 interface TabWorksProps {
   works: WorkItem[];
@@ -24,8 +26,11 @@ interface TabWorksProps {
 }
 
 export default function TabWorks({ works, onOpenAdd, onEdit, onDelete }: TabWorksProps) {
+  const { categories } = usePortfolio();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const { lang, t } = useLanguage();
   const isId = lang === 'id';
 
@@ -36,7 +41,15 @@ export default function TabWorks({ works, onOpenAdd, onEdit, onDelete }: TabWork
     const matchCategory = (locW.category || '').toLowerCase().includes(q) || (w.category || '').toLowerCase().includes(q);
     const matchTech = (w.technologies || []).some((tech) => tech.toLowerCase().includes(q));
     const matchYear = (w.year || '').toLowerCase().includes(q);
-    return matchTitle || matchCategory || matchTech || matchYear;
+    const queryMatch = matchTitle || matchCategory || matchTech || matchYear;
+
+    const catMatch =
+      selectedCategory === 'all' ||
+      (w.category_id && w.category_id.toLowerCase() === selectedCategory.toLowerCase()) ||
+      (w.category_en && w.category_en.toLowerCase() === selectedCategory.toLowerCase()) ||
+      (w.category && w.category.toLowerCase() === selectedCategory.toLowerCase());
+
+    return queryMatch && catMatch;
   });
 
   return (
@@ -86,6 +99,16 @@ export default function TabWorks({ works, onOpenAdd, onEdit, onDelete }: TabWork
             </button>
           </div>
 
+          {/* Kelola Kategori Button */}
+          <button
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="flex items-center gap-2 bg-admin-surface border border-admin-border text-admin-text font-semibold text-xs tracking-wide px-3.5 py-2.5 rounded-xl hover:bg-admin-card hover:border-admin-primary transition-all shadow-2xs shrink-0"
+            title={isId ? 'Kelola daftar kategori proyek' : 'Manage project categories'}
+          >
+            <Tags size={15} className="text-admin-primary" />
+            <span>{isId ? 'Kelola Kategori' : 'Categories'}</span>
+          </button>
+
           <button
             onClick={onOpenAdd}
             className="flex items-center gap-2 bg-admin-primary text-admin-primary-fg font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-admin-primary-hover transition-all shadow-sm shrink-0"
@@ -96,23 +119,44 @@ export default function TabWorks({ works, onOpenAdd, onEdit, onDelete }: TabWork
       </div>
 
       {/* Filter / Search Bar */}
-      <div className="flex items-center gap-3 bg-admin-card border border-admin-border px-3.5 py-2.5 rounded-xl focus-within:border-admin-primary focus-within:ring-1 focus-within:ring-admin-primary shadow-2xs transition-all">
-        <Search size={16} className="text-admin-subtle shrink-0" />
-        <input
-          type="text"
-          placeholder={t('admin.works.searchPlaceholder')}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-transparent text-xs text-admin-text placeholder:text-admin-subtle focus:outline-none"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery('')}
-            className="text-[11px] font-medium text-admin-muted hover:text-admin-text px-1.5 py-0.5 rounded bg-admin-surface"
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-admin-card border border-admin-border px-3.5 py-2.5 rounded-xl focus-within:border-admin-primary focus-within:ring-1 focus-within:ring-admin-primary shadow-2xs transition-all">
+        <div className="flex items-center gap-2.5 flex-1 min-w-0">
+          <Search size={16} className="text-admin-subtle shrink-0" />
+          <input
+            type="text"
+            placeholder={t('admin.works.searchPlaceholder')}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-transparent text-xs text-admin-text placeholder:text-admin-subtle focus:outline-none"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="text-[11px] font-medium text-admin-muted hover:text-admin-text px-1.5 py-0.5 rounded bg-admin-surface"
+            >
+              {isId ? 'Bersihkan' : 'Clear'}
+            </button>
+          )}
+        </div>
+
+        {/* Category Filter Dropdown in Admin */}
+        <div className="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-admin-border pt-2 sm:pt-0 sm:pl-3 shrink-0">
+          <Tags size={13} className="text-admin-muted shrink-0" />
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="bg-transparent text-xs text-admin-text focus:outline-none cursor-pointer pr-2"
           >
-            {isId ? 'Bersihkan' : 'Clear'}
-          </button>
-        )}
+            <option value="all" className="bg-admin-card text-admin-text">
+              {isId ? 'Semua Kategori' : 'All Categories'}
+            </option>
+            {categories.map((c) => (
+              <option key={c.id} value={isId ? c.name_id : c.name_en} className="bg-admin-card text-admin-text">
+                {isId ? c.name_id : c.name_en}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Data Presentation: Table View or Grid View */}
@@ -367,6 +411,12 @@ export default function TabWorks({ works, onOpenAdd, onEdit, onDelete }: TabWork
           })}
         </div>
       )}
+
+      {/* Category Manager Modal */}
+      <CategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+      />
     </motion.div>
   );
 }

@@ -142,11 +142,27 @@ export interface FooterData {
   copyrightNote: string;
 }
 
+export interface CategoryItem {
+  id: string; // Slug identifier e.g. 'web-app', 'ai-ml'
+  name_id: string; // Indonesian title e.g. 'Web App'
+  name_en: string; // English title e.g. 'Web App'
+}
+
+export const defaultCategories: CategoryItem[] = [
+  { id: 'web-app', name_id: 'Web App', name_en: 'Web App' },
+  { id: 'ai-ml', name_id: 'AI & ML', name_en: 'AI & ML' },
+  { id: 'mobile', name_id: 'Mobile App', name_en: 'Mobile App' },
+  { id: 'iot', name_id: 'IoT & Sistem', name_en: 'IoT & Systems' },
+  { id: 'ui-ux', name_id: 'UI/UX & Web', name_en: 'UI/UX & Web' },
+  { id: 'enterprise', name_id: 'Enterprise Web', name_en: 'Enterprise Web' },
+];
+
 interface PortfolioContextType {
   settings: SiteSettings;
   hero: HeroData;
   about: AboutData;
   works: WorkItem[];
+  categories: CategoryItem[];
   quickInfo: QuickInfoRow[];
   footer: FooterData;
   isLoaded: boolean;
@@ -157,6 +173,9 @@ interface PortfolioContextType {
   addWork: (work: Omit<WorkItem, 'id'>) => Promise<void>;
   updateWork: (id: number, work: Partial<WorkItem>) => Promise<void>;
   deleteWork: (id: number) => Promise<void>;
+  updateCategories: (categories: CategoryItem[]) => Promise<void>;
+  addCategory: (category: CategoryItem) => Promise<void>;
+  deleteCategory: (id: string) => Promise<void>;
   updateQuickInfo: (rows: QuickInfoRow[]) => Promise<void>;
 }
 
@@ -410,6 +429,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const [hero, setHero] = useState<HeroData>(defaultHero);
   const [about, setAbout] = useState<AboutData>(defaultAbout);
   const [works, setWorks] = useState<WorkItem[]>(defaultWorks);
+  const [categories, setCategories] = useState<CategoryItem[]>(defaultCategories);
   const [quickInfo, setQuickInfo] = useState<QuickInfoRow[]>(defaultQuickInfo);
   const [footer, setFooter] = useState<FooterData>(defaultFooter);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -431,6 +451,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
             }));
           }
           if (dbData.works) setWorks(dbData.works);
+          if (dbData.categories && Array.isArray(dbData.categories) && dbData.categories.length > 0) {
+            setCategories(dbData.categories);
+          }
           if (dbData.quickInfo) setQuickInfo(dbData.quickInfo);
           if (dbData.footer) setFooter((prev) => ({ ...defaultFooter, ...dbData.footer }));
         }
@@ -449,6 +472,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     newHero = hero,
     newAbout = about,
     newWorks = works,
+    newCategories = categories,
     newInfo = quickInfo,
     newFooter = footer
   ) => {
@@ -460,6 +484,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           hero: newHero,
           about: newAbout,
           works: newWorks,
+          categories: newCategories,
           quickInfo: newInfo,
           footer: newFooter,
         })
@@ -475,6 +500,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           hero: newHero,
           about: newAbout,
           works: newWorks,
+          categories: newCategories,
           quickInfo: newInfo,
           footer: newFooter,
         }),
@@ -487,25 +513,25 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const updateSettings = async (data: Partial<SiteSettings>) => {
     const updated = { ...settings, ...data };
     setSettings(updated);
-    await syncToDatabase(updated, hero, about, works, quickInfo, footer);
+    await syncToDatabase(updated, hero, about, works, categories, quickInfo, footer);
   };
 
   const updateHero = async (data: Partial<HeroData>) => {
     const updated = { ...hero, ...data };
     setHero(updated);
-    await syncToDatabase(settings, updated, about, works, quickInfo, footer);
+    await syncToDatabase(settings, updated, about, works, categories, quickInfo, footer);
   };
 
   const updateAbout = async (data: Partial<AboutData>) => {
     const updated = { ...about, ...data };
     setAbout(updated);
-    await syncToDatabase(settings, hero, updated, works, quickInfo, footer);
+    await syncToDatabase(settings, hero, updated, works, categories, quickInfo, footer);
   };
 
   const updateFooter = async (data: Partial<FooterData>) => {
     const updated = { ...footer, ...data };
     setFooter(updated);
-    await syncToDatabase(settings, hero, about, works, quickInfo, updated);
+    await syncToDatabase(settings, hero, about, works, categories, quickInfo, updated);
   };
 
   const addWork = async (work: Omit<WorkItem, 'id'>) => {
@@ -517,24 +543,41 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     };
     const updated = [...works, newWork];
     setWorks(updated);
-    await syncToDatabase(settings, hero, about, updated, quickInfo, footer);
+    await syncToDatabase(settings, hero, about, updated, categories, quickInfo, footer);
   };
 
   const updateWork = async (id: number, workData: Partial<WorkItem>) => {
     const updated = works.map((w) => (w.id === id ? { ...w, ...workData } : w));
     setWorks(updated);
-    await syncToDatabase(settings, hero, about, updated, quickInfo, footer);
+    await syncToDatabase(settings, hero, about, updated, categories, quickInfo, footer);
   };
 
   const deleteWork = async (id: number) => {
     const updated = works.filter((w) => w.id !== id);
     setWorks(updated);
-    await syncToDatabase(settings, hero, about, updated, quickInfo, footer);
+    await syncToDatabase(settings, hero, about, updated, categories, quickInfo, footer);
+  };
+
+  const updateCategories = async (newCats: CategoryItem[]) => {
+    setCategories(newCats);
+    await syncToDatabase(settings, hero, about, works, newCats, quickInfo, footer);
+  };
+
+  const addCategory = async (category: CategoryItem) => {
+    const updated = [...categories.filter((c) => c.id !== category.id), category];
+    setCategories(updated);
+    await syncToDatabase(settings, hero, about, works, updated, quickInfo, footer);
+  };
+
+  const deleteCategory = async (catId: string) => {
+    const updated = categories.filter((c) => c.id !== catId);
+    setCategories(updated);
+    await syncToDatabase(settings, hero, about, works, updated, quickInfo, footer);
   };
 
   const updateQuickInfo = async (rows: QuickInfoRow[]) => {
     setQuickInfo(rows);
-    await syncToDatabase(settings, hero, about, works, rows, footer);
+    await syncToDatabase(settings, hero, about, works, categories, rows, footer);
   };
 
   return (
@@ -544,6 +587,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         hero,
         about,
         works,
+        categories,
         quickInfo,
         footer,
         isLoaded,
@@ -554,6 +598,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         addWork,
         updateWork,
         deleteWork,
+        updateCategories,
+        addCategory,
+        deleteCategory,
         updateQuickInfo,
       }}
     >

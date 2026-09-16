@@ -69,6 +69,14 @@ const defaultData = {
     { id: 5, title: 'NeuralVision OCR', category: 'Document Digitization & Entity Extraction', year: '2024', image: '/images/work-fashion.png', isTall: false },
     { id: 6, title: 'Corporate Profiles', category: 'WordPress & Laravel Custom Sites', year: '2023', image: '/images/work-cap.png', isTall: true },
   ],
+  categories: [
+    { id: 'web-app', name_id: 'Web App', name_en: 'Web App' },
+    { id: 'ai-ml', name_id: 'AI & ML', name_en: 'AI & ML' },
+    { id: 'mobile', name_id: 'Mobile App', name_en: 'Mobile App' },
+    { id: 'iot', name_id: 'IoT & Sistem', name_en: 'IoT & Systems' },
+    { id: 'ui-ux', name_id: 'UI/UX & Web', name_en: 'UI/UX & Web' },
+    { id: 'enterprise', name_id: 'Enterprise Web', name_en: 'Enterprise Web' },
+  ],
   quickInfo: [
     { label: 'Based in', value: 'Tegal, Indonesia' },
     { label: 'Degree', value: 'S.Tr. Teknik Informatika' },
@@ -164,6 +172,7 @@ export async function POST(request: Request) {
       hero: body.hero || currentData.hero || defaultData.hero,
       about: body.about || currentData.about || defaultData.about,
       works: body.works || currentData.works || defaultData.works,
+      categories: body.categories || currentData.categories || defaultData.categories,
       quickInfo: body.quickInfo || currentData.quickInfo || defaultData.quickInfo,
       footer: body.footer || currentData.footer || defaultData.footer,
     };

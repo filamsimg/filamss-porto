@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, X, Loader2, Plus, Globe, Github, Languages, Check, FolderGit2 } from 'lucide-react';
-import { WorkItem } from '@/context/portfolio-context';
+import { Upload, X, Loader2, Plus, Globe, Github, Languages, Check, FolderGit2, Tags } from 'lucide-react';
+import { WorkItem, usePortfolio } from '@/context/portfolio-context';
 import { translateIdToEnWithTechProtection } from '@/lib/tech-whitelist';
 import { useLanguage } from '@/context/language-context';
 
@@ -22,6 +22,7 @@ export default function WorkModal({
   onClose,
   onSave,
 }: WorkModalProps) {
+  const { categories } = usePortfolio();
   const { lang } = useLanguage();
   const isId = lang === 'id';
   const [translateSuccess, setTranslateSuccess] = useState(false);
@@ -324,34 +325,78 @@ export default function WorkModal({
                   </div>
                 </div>
 
-                {/* Category / Subtitle (50/50 - Perfectly Aligned) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-admin-text font-medium block">
-                      Kategori / Bidang Proyek
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={form.category_id || ''}
-                      onChange={(e) => setForm({ ...form, category_id: e.target.value, category: e.target.value })}
-                      placeholder="mis. Moderasi Komentar AI & YouTube API"
-                      className="w-full bg-admin-input border border-admin-border rounded-xl px-3.5 py-2.5 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
-                    />
+                {/* Category Section with Quick Select Chips */}
+                <div className="space-y-3 p-4 bg-admin-surface/60 border border-admin-border rounded-2xl">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-admin-primary flex items-center gap-1.5">
+                      <Tags size={13} />
+                      <span>{isId ? 'Pilih Kategori Singkat (Rekomendasi)' : 'Quick Category Preset'}</span>
+                    </span>
+                    <span className="text-[11px] text-admin-muted">
+                      {isId ? 'Klik salah satu untuk mengisi otomatis ID & EN' : 'Click to autofill ID & EN'}
+                    </span>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs text-admin-text font-medium block">
-                      Project Category / Subtitle
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={form.category_en || ''}
-                      onChange={(e) => setForm({ ...form, category_en: e.target.value })}
-                      placeholder="e.g. AI Comment Moderation & YouTube API"
-                      className="w-full bg-admin-input border border-admin-border rounded-xl px-3.5 py-2.5 text-sm text-admin-text focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-2xs transition-all"
-                    />
+                  {/* Preset Pills */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {categories.map((cat) => {
+                      const isActive =
+                        form.category_id?.toLowerCase() === cat.name_id.toLowerCase() ||
+                        form.category_en?.toLowerCase() === cat.name_en.toLowerCase();
+
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          onClick={() => {
+                            setForm((prev) => ({
+                              ...prev,
+                              category: cat.name_id,
+                              category_id: cat.name_id,
+                              category_en: cat.name_en,
+                            }));
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                            isActive
+                              ? 'bg-admin-primary text-admin-primary-fg shadow-xs scale-102 ring-1 ring-admin-primary font-semibold'
+                              : 'bg-admin-card text-admin-muted border border-admin-border hover:text-admin-text hover:bg-admin-surface'
+                          }`}
+                        >
+                          {isId ? cat.name_id : cat.name_en}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Category Inputs (50/50 - Perfectly Aligned) */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-admin-text font-medium block">
+                        Kategori Singkat (ID)
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={form.category_id || ''}
+                        onChange={(e) => setForm({ ...form, category_id: e.target.value, category: e.target.value })}
+                        placeholder="mis. Web App, AI & ML"
+                        className="w-full bg-admin-input border border-admin-border rounded-xl px-3.5 py-2.5 text-sm text-admin-text focus:outline-none focus:border-admin-primary focus:ring-1 focus:ring-admin-primary shadow-2xs transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-admin-text font-medium block">
+                        Short Category (EN)
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={form.category_en || ''}
+                        onChange={(e) => setForm({ ...form, category_en: e.target.value })}
+                        placeholder="e.g. Web App, AI & ML"
+                        className="w-full bg-admin-input border border-admin-border rounded-xl px-3.5 py-2.5 text-sm text-admin-text focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-2xs transition-all"
+                      />
+                    </div>
                   </div>
                 </div>
 
