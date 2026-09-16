@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), 'src', 'data', 'portfolio-db.json');
+import { getPortfolioCmsData, savePortfolioCmsData, PortfolioData } from '@/lib/db';
 
 const defaultData = {
   settings: {
     brandName: 'Filamsi Mabda Ghifary',
     contactEmail: 'filamsi.mghifary@gmail.com',
     faviconUrl: '/images/portrait-hero.png',
-    showreelUrl: 'https://github.com/filamsi',
+    showreelUrl: '',
     whatsappNumber: '0858-5368-5622',
     instagramUrl: 'https://instagram.com/filamsi',
     resumeUrl: '/uploads/resume.pdf',
@@ -61,14 +58,7 @@ const defaultData = {
       },
     ],
   },
-  works: [
-    { id: 1, title: 'Athena Shield', category: 'AI Comment Moderation & YouTube API', year: '2025', image: '/images/work-branding.png', isTall: false },
-    { id: 2, title: 'SignBridge ID', category: 'Real-Time AI Sign Language Translator', year: '2025', image: '/images/work-phone.png', isTall: true },
-    { id: 3, title: 'NextJS POS SaaS', category: 'Full-Stack Point of Sale Application', year: '2024', image: '/images/work-laptop.png', isTall: false },
-    { id: 4, title: 'SI-PKL Poltek', category: 'Academic Internship Portal & Management', year: '2024', image: '/images/work-tablet.png', isTall: true },
-    { id: 5, title: 'NeuralVision OCR', category: 'Document Digitization & Entity Extraction', year: '2024', image: '/images/work-fashion.png', isTall: false },
-    { id: 6, title: 'Corporate Profiles', category: 'WordPress & Laravel Custom Sites', year: '2023', image: '/images/work-cap.png', isTall: true },
-  ],
+  works: [],
   categories: [
     { id: 'web-app', name_id: 'Web App', name_en: 'Web App' },
     { id: 'ai-ml', name_id: 'AI & ML', name_en: 'AI & ML' },
@@ -91,16 +81,6 @@ const defaultData = {
     copyrightNote: 'Designed & built with care',
   },
 };
-
-async function ensureDbExists() {
-  try {
-    await fs.access(DB_PATH);
-  } catch {
-    const dir = path.dirname(DB_PATH);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(DB_PATH, JSON.stringify(defaultData, null, 2), 'utf-8');
-  }
-}
 
 async function commitToGitHub(data: any) {
   const token = process.env.GITHUB_TOKEN;
@@ -145,10 +125,8 @@ async function commitToGitHub(data: any) {
 
 export async function GET() {
   try {
-    await ensureDbExists();
-    const content = await fs.readFile(DB_PATH, 'utf-8');
-    const data = JSON.parse(content);
-    return NextResponse.json(data, {
+    const data = await getPortfolioCmsData();
+    return NextResponse.json(data || defaultData, {
       headers: {
         'Cache-Control': 'no-store, max-age=0',
       },
@@ -161,31 +139,26 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    await ensureDbExists();
     const body = await request.json();
+    const currentData = await getPortfolioCmsData();
 
-    const existingContent = await fs.readFile(DB_PATH, 'utf-8').catch(() => '{}');
-    const currentData = JSON.parse(existingContent || '{}');
-
-    const updatedData = {
+    const updatedData: PortfolioData = {
       settings: { ...defaultData.settings, ...(currentData.settings || {}), ...(body.settings || {}) },
       hero: body.hero || currentData.hero || defaultData.hero,
       about: body.about || currentData.about || defaultData.about,
-      works: body.works || currentData.works || defaultData.works,
-      categories: body.categories || currentData.categories || defaultData.categories,
-      quickInfo: body.quickInfo || currentData.quickInfo || defaultData.quickInfo,
+      works: body.works || currentData.works || defaultData.works || [],
+      categories: body.categories || currentData.categories || defaultData.categories || [],
+      quickInfo: body.quickInfo || currentData.quickInfo || defaultData.quickInfo || [],
       footer: body.footer || currentData.footer || defaultData.footer,
     };
 
-    // Save locally
-    try {
-      await fs.writeFile(DB_PATH, JSON.stringify(updatedData, null, 2), 'utf-8');
-    } catch {}
+    // Save to Neon DB (and sync locally)
+    const saveResult = await savePortfolioCmsData(updatedData);
 
-    // Auto-commit to GitHub if GITHUB_TOKEN & GITHUB_REPO are configured
+    // Auto-commit to GitHub if configured
     await commitToGitHub(updatedData);
 
-    return NextResponse.json({ success: true, data: updatedData });
+    return NextResponse.json({ success: true, data: updatedData, source: saveResult.source });
   } catch (error) {
     console.error('API POST /api/cms error:', error);
     return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
