@@ -82,47 +82,6 @@ const defaultData = {
   },
 };
 
-async function commitToGitHub(data: any) {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO; // e.g. "username/my-porto-v4"
-  const branch = process.env.GITHUB_BRANCH || 'main';
-
-  if (!token || !repo) return;
-
-  try {
-    const fileUrl = `https://api.github.com/repos/${repo}/contents/src/data/portfolio-db.json`;
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      'User-Agent': 'Portfolio-CMS',
-    };
-
-    // 1. Get current file SHA from GitHub
-    let sha = '';
-    const getRes = await fetch(`${fileUrl}?ref=${branch}`, { headers, cache: 'no-store' });
-    if (getRes.ok) {
-      const getJson = await getRes.json();
-      sha = getJson.sha;
-    }
-
-    // 2. Commit updated JSON to GitHub repository
-    const contentEncoded = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
-    await fetch(fileUrl, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({
-        message: 'cms: update portfolio content from admin dashboard',
-        content: contentEncoded,
-        branch,
-        ...(sha ? { sha } : {}),
-      }),
-    });
-  } catch (err) {
-    console.error('GitHub Auto-Commit Error:', err);
-  }
-}
-
 export async function GET() {
   try {
     const data = await getPortfolioCmsData();
@@ -154,9 +113,6 @@ export async function POST(request: Request) {
 
     // Save to Neon DB (and sync locally)
     const saveResult = await savePortfolioCmsData(updatedData);
-
-    // Auto-commit to GitHub if configured
-    await commitToGitHub(updatedData);
 
     return NextResponse.json({ success: true, data: updatedData, source: saveResult.source });
   } catch (error) {
