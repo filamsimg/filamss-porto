@@ -149,8 +149,8 @@ export default function ProjectsPage() {
 
             {/* Filter & Search Bar Toolbar */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 sm:mb-14">
-              {/* Category Filter Pills (Clean, wrapping naturally without truncation) */}
-              <div className="flex flex-wrap items-center gap-2">
+              {/* Category Filter Pills (Horizontal scrollable on mobile, wrapping on desktop) */}
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-nowrap sm:flex-wrap pb-1.5 sm:pb-0 max-w-full">
                 <button
                   onClick={() => handleCategoryChange('all')}
                   className={`relative px-4 py-2 rounded-full text-xs tracking-wider transition-colors select-none ${

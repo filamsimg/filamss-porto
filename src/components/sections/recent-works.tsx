@@ -43,11 +43,12 @@ export default function RecentWorksSection() {
     offset: ['start start', 'end end'],
   });
 
-  const CARD_W = Math.min(400, vw * 0.28 || 340);
-  const CARD_GAP = 40;
+  const isMobile = vw < 640;
+  const CARD_W = isMobile ? Math.min(vw * 0.75, 300) : Math.min(400, vw * 0.28 || 340);
+  const CARD_GAP = isMobile ? 24 : 40;
   const TOTAL_W = recentWorks.length * (CARD_W + CARD_GAP);
   const START_X = vw || 1200;
-  const LAND_X = (vw || 1200) * 0.06;
+  const LAND_X = isMobile ? vw * 0.06 : (vw || 1200) * 0.06;
   const END_X = LAND_X - (TOTAL_W - CARD_W);
 
   const rawCardsX: MotionValue<number> = useTransform(
@@ -97,7 +98,7 @@ export default function RecentWorksSection() {
         >
           <h2
             className="font-display font-medium text-[#111111] tracking-[-0.04em] text-center leading-none"
-            style={{ fontSize: 'clamp(3.5rem, 13vw, 11rem)' }}
+            style={{ fontSize: 'clamp(2.4rem, 13vw, 11rem)' }}
           >
             {lang === 'id' ? 'Proyek pilihan' : 'Recent projects'}
           </h2>
@@ -127,7 +128,7 @@ export default function RecentWorksSection() {
         >
           <motion.div
             style={{ x: cardsX, willChange: 'transform' }}
-            className="flex gap-8 sm:gap-10 w-max"
+            className="flex gap-6 sm:gap-10 w-max px-4 sm:px-0"
           >
             {recentWorks.map((project) => {
               const localized = getLocalizedWork(project, lang);

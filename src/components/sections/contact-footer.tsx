@@ -31,7 +31,8 @@ export default function ContactFooter() {
     <footer
       ref={containerRef}
       id="contact"
-      className="sticky bottom-0 z-10 min-h-screen w-full bg-[#1b4d3e] text-white grain flex flex-col justify-between pt-[10vh] sm:pt-[14vh] pb-10 px-4 sm:px-6 overflow-hidden"
+      data-theme="dark"
+      className="sticky bottom-0 z-10 min-h-screen w-full bg-[#1b4d3e] text-white grain flex flex-col justify-between pt-[8vh] sm:pt-[14vh] pb-10 px-5 sm:px-8 overflow-hidden"
       style={{ position: 'sticky', bottom: 0, zIndex: 10 }}
     >
       <div className="max-w-5xl mx-auto flex flex-col items-center justify-center text-center my-auto w-full">
@@ -51,7 +52,7 @@ export default function ContactFooter() {
           {/* Parallax portrait circle */}
           <motion.div
             style={{ y: portraitY }}
-            className="h-[18vh] sm:h-[28vh] aspect-square rounded-full overflow-hidden bg-[#e2e2dc] border-4 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.4)] -my-[2vh] sm:-my-[4vh] z-10 flex items-center justify-center relative"
+            className="h-[22vh] sm:h-[28vh] aspect-square rounded-full overflow-hidden bg-[#e2e2dc] border-4 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.4)] -my-[3vh] sm:-my-[4vh] z-10 flex items-center justify-center relative"
           >
             <img
               src={hero.portraitUrl}
@@ -73,14 +74,15 @@ export default function ContactFooter() {
         </div>
 
         {/* Email */}
-        <div className="mt-8 sm:mt-12 flex flex-col items-center gap-3 w-full max-w-lg px-2">
+        <div className="mt-6 sm:mt-12 flex flex-col items-center gap-3 w-full max-w-lg px-2">
           <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-white/55">
             {lang === 'id' ? t('footer.emailPrompt') : (footer.emailLabel || 'Drop me an email')}
           </span>
-          <div className="flex items-center justify-center gap-2.5 w-full max-w-full">
+          {/* Stack vertically on mobile to prevent email text truncation */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2.5 w-full max-w-full">
             <a
               href={`mailto:${settings.contactEmail}`}
-              className="text-base sm:text-2xl md:text-3xl font-medium text-white hover:text-[#d4e157] transition-colors truncate max-w-[80vw]"
+              className="text-sm sm:text-2xl md:text-3xl font-medium text-white hover:text-[#d4e157] transition-colors text-center break-all"
             >
               {settings.contactEmail}
             </a>

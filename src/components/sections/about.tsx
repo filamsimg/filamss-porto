@@ -36,7 +36,8 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative z-30 min-h-[90svh] bg-[#1b4d3e] text-white flex items-center justify-center py-[18vh] sm:py-[22vh] px-6 text-center grain overflow-hidden"
+      data-theme="dark"
+      className="relative z-30 min-h-[90svh] bg-[#1b4d3e] text-white flex items-center justify-center py-[12vh] sm:py-[22vh] px-6 sm:px-10 text-center grain overflow-hidden"
       style={{ position: 'relative', zIndex: 30 }}
     >
       <motion.div
@@ -49,7 +50,7 @@ export default function AboutSection() {
         {/* Dynamic Eyebrow */}
         <motion.p
           variants={itemVariants}
-          className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-white/55 mb-8 sm:mb-10 font-mono"
+          className="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-white/55 mb-6 sm:mb-10 font-mono"
         >
           {locAbout.eyebrow} <span className="text-[#d4e157] font-semibold">{locAbout.eyebrowHighlight}</span>
         </motion.p>
@@ -57,8 +58,8 @@ export default function AboutSection() {
         {/* Dynamic Headline */}
         <motion.h2
           variants={itemVariants}
-          className="font-display font-medium leading-[1.02] tracking-[-0.04em] text-white max-w-4xl"
-          style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}
+          className="font-display font-medium leading-[1.05] tracking-[-0.04em] text-white max-w-4xl w-full"
+          style={{ fontSize: 'clamp(1.9rem, 7.5vw, 5.5rem)' }}
         >
           {locAbout.headline || (lang === 'id' ? t('about.headline') : about.headline)}{' '}
           <span className="text-[#d4e157]">
@@ -69,7 +70,7 @@ export default function AboutSection() {
         {/* Dynamic Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 sm:mt-8 text-white/70 text-lg sm:text-2xl font-light max-w-xl leading-relaxed"
+          className="mt-5 sm:mt-8 text-white/70 text-base sm:text-xl md:text-2xl font-light max-w-md sm:max-w-lg leading-relaxed w-full"
         >
           {locAbout.subtext || (lang === 'id' ? t('about.subtext') : about.subtext)}
         </motion.p>

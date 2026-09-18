@@ -1,9 +1,9 @@
 import { useEffect, useState, RefObject } from 'react';
 
 /**
- * High-Performance Contrast & Theme Detector
- * Samples the underlying section at a specific viewport position.
- * Uses requestAnimationFrame throttling and cached section lookups to prevent forced reflows.
+ * Theme Detector — Original approach using elementFromPoint.
+ * Temporarily hides the header from hit-testing so we can see the section behind it.
+ * Works correctly with Lenis (native scroll events still fire on window).
  */
 export function isDarkAtPoint(x: number, y: number, excludeRef?: RefObject<HTMLElement | null>): boolean {
   if (typeof window === 'undefined') return false;
@@ -24,13 +24,13 @@ export function isDarkAtPoint(x: number, y: number, excludeRef?: RefObject<HTMLE
 
   if (!el) return false;
 
-  // 1. Fast path: Check closest semantic section by ID or attribute
+  // 1. Fast path: Check closest semantic section by ID or data-theme attribute
   const closestSection = el.closest('section, footer, [data-theme]');
   if (closestSection) {
     const id = closestSection.id;
     const theme = closestSection.getAttribute('data-theme');
 
-    if (id === 'about' || id === 'contact' || closestSection.tagName === 'FOOTER' || theme === 'dark') {
+    if (id === 'about' || id === 'contact' || id === 'showreel' || closestSection.tagName === 'FOOTER' || theme === 'dark') {
       return true;
     }
     if (id === 'home' || id === 'projects' || theme === 'light') {
@@ -38,16 +38,27 @@ export function isDarkAtPoint(x: number, y: number, excludeRef?: RefObject<HTMLE
     }
   }
 
-  // 2. Safe fallback: check class names for common dark background classes
+  // 2. Safe fallback: walk up DOM checking background color classes
   let current: HTMLElement | null = el as HTMLElement;
   let depth = 0;
-  while (current && current !== document.body && current.tagName !== 'MAIN' && depth < 5) {
+  while (current && current !== document.body && current.tagName !== 'MAIN' && depth < 6) {
     const className = current.className || '';
     if (typeof className === 'string') {
-      if (className.includes('bg-[#1b4d3e]') || className.includes('bg-[#121c19]') || className.includes('bg-[#090e0d]') || className.includes('bg-slate-900') || className.includes('bg-black')) {
+      if (
+        className.includes('bg-[#1b4d3e]') ||
+        className.includes('bg-[#121c19]') ||
+        className.includes('bg-[#090e0d]') ||
+        className.includes('bg-slate-900') ||
+        className.includes('bg-black')
+      ) {
         return true;
       }
-      if (className.includes('bg-[#e8e8e4]') || className.includes('bg-[#f4f4f0]') || className.includes('bg-white') || className.includes('bg-slate-50')) {
+      if (
+        className.includes('bg-[#e8e8e4]') ||
+        className.includes('bg-[#f4f4f0]') ||
+        className.includes('bg-white') ||
+        className.includes('bg-slate-50')
+      ) {
         return false;
       }
     }
@@ -59,9 +70,9 @@ export function isDarkAtPoint(x: number, y: number, excludeRef?: RefObject<HTMLE
 }
 
 /**
- * Custom Hook: useThemeDetector
- * Continuously tracks screen contrast at a specified element reference or position ('top' | 'bottom')
- * Uses requestAnimationFrame to eliminate scroll jank and keep 60-120 FPS.
+ * useThemeDetector
+ * Continuously tracks screen contrast at a specified position.
+ * Throttled via requestAnimationFrame to eliminate scroll jank.
  */
 export function useThemeDetector(
   position: 'top' | 'bottom' = 'top',
@@ -76,9 +87,10 @@ export function useThemeDetector(
     let isScheduled = false;
 
     const performCheck = () => {
-      const x = position === 'top' ? 60 : window.innerWidth / 2;
+      // Sample at center-top — avoids all interactive header elements (brand left, buttons right)
+      const x = window.innerWidth / 2;
       const y = position === 'top' ? 32 : window.innerHeight - 36;
-      const dark = isDarkAtPoint(x, y, targetRef);
+      const dark = isDarkAtPoint(x, y);
       setIsDark((prev) => (prev !== dark ? dark : prev));
       isScheduled = false;
     };
@@ -93,13 +105,42 @@ export function useThemeDetector(
     // Initial check
     performCheck();
 
+    // Listen to all scroll triggers: native, touch, wheel, resize
     window.addEventListener('scroll', scheduleCheck, { passive: true });
     window.addEventListener('resize', scheduleCheck, { passive: true });
+    window.addEventListener('wheel', scheduleCheck, { passive: true });
+    window.addEventListener('touchmove', scheduleCheck, { passive: true });
+
+    // Also connect directly to Lenis scroll instance if active
+    let cleanupLenis: (() => void) | null = null;
+    const bindLenis = () => {
+      const lenis = (window as unknown as { __lenis?: { on: (event: string, cb: () => void) => void; off: (event: string, cb: () => void) => void } }).__lenis;
+      if (lenis && typeof lenis.on === 'function') {
+        lenis.on('scroll', scheduleCheck);
+        cleanupLenis = () => {
+          try {
+            lenis.off('scroll', scheduleCheck);
+          } catch {}
+        };
+        return true;
+      }
+      return false;
+    };
+
+    if (!bindLenis()) {
+      const timer = setInterval(() => {
+        if (bindLenis()) clearInterval(timer);
+      }, 100);
+      setTimeout(() => clearInterval(timer), 3000);
+    }
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', scheduleCheck);
       window.removeEventListener('resize', scheduleCheck);
+      window.removeEventListener('wheel', scheduleCheck);
+      window.removeEventListener('touchmove', scheduleCheck);
+      if (cleanupLenis) cleanupLenis();
     };
   }, [position, targetRef]);
 

@@ -23,12 +23,12 @@ export default function FloatingNav() {
   ];
 
   return (
-    <div ref={navRef} className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+    <div ref={navRef} className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto transform-gpu">
       <motion.div
         initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: MOTION.ease }}
-        className={`flex items-center gap-1.5 p-1.5 rounded-full border shadow-[0_15px_40px_rgba(0,0,0,0.18)] backdrop-blur-md transition-colors duration-400 ${
+        className={`flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full border shadow-[0_15px_40px_rgba(0,0,0,0.18)] backdrop-blur-md transition-colors duration-400 ${
           isDark
             ? 'bg-[#121c19]/90 border-white/20 text-white shadow-2xl'
             : 'bg-white/90 border-black/10 text-[#111111]'
@@ -44,7 +44,7 @@ export default function FloatingNav() {
             <Link
               key={item.label}
               href={item.href}
-              className={`relative px-5 py-2 rounded-full text-xs font-semibold tracking-wider transition-colors duration-300 select-none ${
+              className={`relative px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider transition-colors duration-300 select-none ${
                 isActive
                   ? 'text-[#111111]'
                   : isDark
@@ -55,7 +55,7 @@ export default function FloatingNav() {
               {isActive && (
                 <motion.div
                   layoutId="activePill"
-                  className="absolute inset-0 rounded-full bg-[#d4e157] shadow-sm"
+                  className="absolute inset-0 rounded-full bg-[#d4e157] shadow-sm transform-gpu"
                   transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                 />
               )}
