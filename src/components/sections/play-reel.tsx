@@ -6,13 +6,13 @@ import { Play, Code2 } from 'lucide-react';
 import { usePortfolio } from '@/context/portfolio-context';
 import { useLanguage } from '@/context/language-context';
 
-/** Returns the uploaded video URL, or null if not set */
+/** Returns the uploaded video URL, or default sample video if available */
 function resolveVideoSrc(url?: string): string | null {
-  if (!url || !url.trim()) return null;
-  const clean = url.trim();
-  // Only allow local/uploaded paths (starts with / or is a relative path to uploads)
-  if (clean.startsWith('/')) return clean;
-  return null;
+  if (url && url.trim().startsWith('/')) {
+    return url.trim();
+  }
+  // Default fallback sample video bundled in repository
+  return '/videos/showreel-sample.webm';
 }
 
 export default function PlayReelSection() {
@@ -152,10 +152,11 @@ export default function PlayReelSection() {
           <video
             ref={videoRef}
             src={videoSrc}
+            autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
             aria-label="Full-stack developer showreel"
             className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 z-0 ${
               isHovered ? 'opacity-100 scale-102 brightness-105' : 'opacity-35 scale-100 brightness-75'

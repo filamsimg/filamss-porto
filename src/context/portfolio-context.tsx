@@ -240,7 +240,7 @@ const defaultSettings: SiteSettings = {
   brandName: 'Filamsi Mabda Ghifary',
   contactEmail: 'filamsi.mghifary@gmail.com',
   faviconUrl: '/images/portrait-hero.png',
-  showreelUrl: 'https://github.com/filamsi',
+  showreelUrl: '/videos/showreel-sample.webm',
   whatsappNumber: '0858-5368-5622',
   instagramUrl: 'https://instagram.com/filamsi',
   resumeUrl: '/uploads/resume.pdf',
@@ -435,9 +435,30 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    // 1. Instant local cache hydration (0ms paint)
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed.settings) setSettings((prev) => ({ ...prev, ...parsed.settings }));
+          if (parsed.hero) setHero((prev) => ({ ...prev, ...parsed.hero }));
+          if (parsed.about) setAbout((prev) => ({ ...prev, ...parsed.about }));
+          if (parsed.works && Array.isArray(parsed.works)) setWorks(parsed.works);
+          if (parsed.categories && Array.isArray(parsed.categories)) setCategories(parsed.categories);
+          if (parsed.quickInfo && Array.isArray(parsed.quickInfo)) setQuickInfo(parsed.quickInfo);
+          if (parsed.footer) setFooter((prev) => ({ ...prev, ...parsed.footer }));
+          setIsLoaded(true);
+        }
+      } catch (e) {
+        console.warn('Local cache parse error:', e);
+      }
+    }
+
+    // 2. Background fresh data sync (SWR pattern)
     const loadData = async () => {
       try {
-        const res = await fetch('/api/cms', { cache: 'no-store' });
+        const res = await fetch('/api/cms');
         if (res.ok) {
           const dbData = await res.json();
           if (dbData.settings) setSettings((prev) => ({ ...defaultSettings, ...dbData.settings }));
@@ -450,12 +471,17 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
               values: dbData.about.values || defaultValues,
             }));
           }
-          if (dbData.works) setWorks(dbData.works);
+          if (dbData.works && Array.isArray(dbData.works)) setWorks(dbData.works);
           if (dbData.categories && Array.isArray(dbData.categories) && dbData.categories.length > 0) {
             setCategories(dbData.categories);
           }
           if (dbData.quickInfo) setQuickInfo(dbData.quickInfo);
           if (dbData.footer) setFooter((prev) => ({ ...defaultFooter, ...dbData.footer }));
+
+          // Update local cache
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dbData));
+          }
         }
       } catch (err) {
         console.log('Server API CMS loading fallback:', err);

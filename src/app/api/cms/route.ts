@@ -6,7 +6,7 @@ const defaultData = {
     brandName: 'Filamsi Mabda Ghifary',
     contactEmail: 'filamsi.mghifary@gmail.com',
     faviconUrl: '/images/portrait-hero.png',
-    showreelUrl: '',
+    showreelUrl: '/videos/showreel-sample.webm',
     whatsappNumber: '0858-5368-5622',
     instagramUrl: 'https://instagram.com/filamsi',
     resumeUrl: '/uploads/resume.pdf',
@@ -87,7 +87,7 @@ export async function GET() {
     const data = await getPortfolioCmsData();
     return NextResponse.json(data || defaultData, {
       headers: {
-        'Cache-Control': 'no-store, max-age=0',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
       },
     });
   } catch (error) {
